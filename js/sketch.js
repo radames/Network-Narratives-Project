@@ -1,38 +1,81 @@
-var nParam = 5;
-var sliders = [];
+'use strict';
+
+var GUI = function() {
+	this.nParam = 5;
+	this.sliders = [];
+
+	for(var i = 0; i < this.nParam; i++){
+		this.sliders[i] = createSlider(0, 100,random(100));
+		this.sliders[i].position(20, 30+35*i);
+		this.sliders[i].changed(this.slideChange);
+		this.sliders[i].attribute('name', 'sld-' + i);
+	}
+	for(i = 0; i < this.nParam; i++){
+		this.sliders[i].elt.dispatchEvent(new Event('change'));
+	}
+};
+
+GUI.prototype = {
+	getSliders:function(){
+		return this.sliders;
+	},
+	drawGUI:function(){
+		push();
+			textFont('Helvetica');
+			textSize(15);	
+		
+			fill(0);
+			textAlign(LEFT,TOP);
+			text('Intelligence', 160, 30 + 35*0);
+			text('Strength', 160, 30 + 35*1);
+			text('Speed', 160, 30 + 35*2);
+			text('Stamina', 160, 30 + 35*3);
+			text('Empathy', 160, 30 + 35*4);
+		pop();
+	},
+	slideChange:function(e) {
+		switch(e.target.name){
+			case 'sld-0':
+				this.sliders[1].elt.value = 100 - this.sliders[0].value();
+				break;
+			case 'sld-1':
+				this.sliders[0].elt.value = 100 - this.sliders[1].value();
+				break;
+			case 'sld-2':
+				this.sliders[3].elt.value = 100 - this.sliders[2].value();
+				break;
+			case 'sld-3': 
+				this.sliders[2].elt.value = 100 - this.sliders[3].value();
+				break;
+			case 'sld-4':
+				break;
+		}
+	}
+};
+
+
+
+var gui;
+
 
 function setup() {
-  // create canvas
-  createCanvas(windowWidth, windowHeight);
-  textSize(15)
-  noStroke();
-  for(var i = 0; i < nParam; i++){
-	  sliders[i] = createSlider(0, 100,random(100));
-	  sliders[i].position(20, 30+35*i);
-	  sliders[i].changed(slideChange);
-	  sliders[i].attribute("name", "sld-"+i);
-  }
-  for(var i = 0; i < nParam; i++){
-	  sliders[i].elt.dispatchEvent(new Event('change'));
-  }
-	
-	textFont("Helvetica");
+	// create canvas
+	createCanvas(windowWidth, windowHeight);
 	textSize(15);
+	noStroke();
 
-  }
+	gui = new GUI();
+
+
+}
   
  function draw() {
 	  
 	background(255);
-	fill(0);
-	textAlign(LEFT,TOP);
-	text("Intelligence", 160, 30 + 35*0);
-	text("Strength", 160, 30 + 35*1);
-	text("Speed", 160, 30 + 35*2);
-	text("Stamina", 160, 30 + 35*3);
-	text("Empathy", 160, 30 + 35*4);
 
-	drawBody(width/2, height/2, sliders);
+	 
+	drawBody(width/2, height/2, gui.getSliders);
+	gui.draw();
 
 }
 
@@ -67,7 +110,7 @@ function drawLeftArm(px, py, s){
 	push();
 		ellipseMode(CORNER);	
 		translate(px,py);
-		scale(s)
+		scale(s);
 		noFill();
 		stroke(0);
 		ellipse(0, -10, 50, 20);
@@ -87,7 +130,7 @@ function drawRightArm(px, py, s){
 		ellipseMode(CORNER);	
 		translate(px,py);
 		rotate(PI);
-		scale(s)
+		scale(s);
 		noFill();
 		stroke(0);
 	    ellipse(0, -10, 50, 20);
@@ -105,8 +148,7 @@ function drawRightLeg(px, py, s){
 		ellipseMode(CORNER);	
 		translate(px,py);
 		rotate(2*PI/3);
-		scale(s)
-		
+		scale(s);
 		noFill();
 		stroke(0);
 	
@@ -125,7 +167,7 @@ function drawLeftLeg(px, py, s){
 		ellipseMode(CORNER);	
 		translate(px,py);
 		rotate(PI/4);
-		scale(s)
+		scale(s);
 		noFill();
 		stroke(0);
 	
@@ -153,29 +195,7 @@ function drawTorso(px, py, s){
 
 
 
-function slideChange(e) {
-	switch(e.target.name){
-		case "sld-0":
-			sliders[1].elt.value = 100 - sliders[0].value();
-			break;
-		case "sld-1":
-			sliders[0].elt.value = 100 - sliders[1].value();
-			break;
-		case "sld-2":
-			sliders[3].elt.value = 100 - sliders[2].value();
-			break;
-		case "sld-3": 
-			sliders[2].elt.value = 100 - sliders[3].value();
-			break;
-		case "sld-4":
-			break;
-	}
 
-};
-
-
-
-	
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
