@@ -7,19 +7,19 @@ var GUI = function() {
 	for(var i = 0; i < this.nParam; i++){
 		this.sliders[i] = createSlider(0, 100,random(100));
 		this.sliders[i].position(20, 30+35*i);
-		this.sliders[i].changed(this.slideChange);
+//		this.sliders[i].changed(function(e) {
+//			this.slideChange(e);
+//			});
 		this.sliders[i].attribute('name', 'sld-' + i);
 	}
 	for(i = 0; i < this.nParam; i++){
 		this.sliders[i].elt.dispatchEvent(new Event('change'));
 	}
-};
 
-GUI.prototype = {
-	getSliders:function(){
+	this.getSliders = function(){
 		return this.sliders;
-	},
-	drawGUI:function(){
+	};
+	this.drawGUI = function(){
 		push();
 			textFont('Helvetica');
 			textSize(15);	
@@ -32,8 +32,8 @@ GUI.prototype = {
 			text('Stamina', 160, 30 + 35*3);
 			text('Empathy', 160, 30 + 35*4);
 		pop();
-	},
-	slideChange:function(e) {
+	};
+	this.slideChange = function(e) {
 		switch(e.target.name){
 			case 'sld-0':
 				this.sliders[1].elt.value = 100 - this.sliders[0].value();
@@ -50,7 +50,7 @@ GUI.prototype = {
 			case 'sld-4':
 				break;
 		}
-	}
+	};
 };
 
 
@@ -74,8 +74,8 @@ function setup() {
 	background(255);
 
 	 
-	drawBody(width/2, height/2, gui.getSliders);
-	gui.draw();
+	drawBody(width/2, height/2, gui.getSliders());
+	gui.drawGUI();
 
 }
 
