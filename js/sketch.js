@@ -35,10 +35,10 @@ var GUI = function() {
 			textAlign(LEFT,TOP);
     		imageMode(CENTER);
 			for(var i = 0; i < this.nParam; i++){
-				text(this.labels[i], this.x + 160, this.y + 40*i);
+				text(this.labels[i], this.x + 140, this.y + 40*i);
 				push();
-					translate(this.x, this.y + 40 * i);
-					scale(this.sliders[i].value()/200);
+					translate(this.x-30, this.y + 40 * i);
+					scale(0.2+this.sliders[i].value()/300);
 					image(this.icons[i], 0, 0);
 				pop();
 			}
@@ -101,13 +101,12 @@ function setup() {
 function drawBody(px, py, sliders){	
 	push();
 		translate(px,py);
-		drawTorso(0,20, sliders[4].value()/100.0);
-		drawHead(0,-20, 1+sliders[0].value()/100.0);
+		drawTorso(0,20, sliders[4].value()/200.0);
+		drawHead(0,-20, 1+sliders[0].value()/200.0);
 		drawLeftArm(10,0, sliders[1].value()/100.0);
 		drawRightArm(-10,0, sliders[1].value()/100.0);
 		drawRightLeg(-10,50,sliders[2].value()/100.0);
 		drawLeftLeg(10,50,sliders[2].value()/100.0);
-
 	pop();
 }
 
@@ -126,75 +125,65 @@ function drawHead(px, py, s){
 
 function drawLeftArm(px, py, s){
 	push();
-		ellipseMode(CORNER);	
 		translate(px,py);
+		rotate(-PI/3);
 		scale(s);
-		noFill();
 		stroke(0);
-		ellipse(0, -10, 50, 20);
+	    line(0, 0, 0, 40);
+		fill(255);
+		ellipse(0,40, 10,10);
 		push();
-			ellipseMode(CORNER);
-			translate(45,0);
-			rotate(radians(-45));		
-			scale(s);
-			ellipse(0, -10, 50, 20);
-			
+			translate(0,40);
+			rotate(radians(45));
+		    line(0, 0, 0, 40);
 		pop();
 	pop();
 }
 
 function drawRightArm(px, py, s){
 	push();
-		ellipseMode(CORNER);	
 		translate(px,py);
-		rotate(PI);
+		rotate(PI/3);
 		scale(s);
-		noFill();
 		stroke(0);
-	    ellipse(0, -10, 50, 20);
+		fill(255);
+	    line(0, 0, 0, 40);
+		ellipse(0,40, 10,10);
 		push();
-			ellipseMode(CORNER);
-			translate(45,0);
-			rotate(radians(-45));		
-			ellipse(0, -10, 50, 20);
+			translate(0,40);
+			rotate(radians(-45));
+		    line(0, 0, 0, 40);
 		pop();
 	pop();
 }
 
 function drawRightLeg(px, py, s){
 	push();
-		ellipseMode(CORNER);	
 		translate(px,py);
-		rotate(2*PI/3);
+		//rotate(PI/5);
 		scale(s);
-		noFill();
 		stroke(0);
-	
-		ellipse(0, -10, 50, 20);
+		fill(255);
+	    line(5,0, 0,60);
+	    ellipse(0,60, 10,10);
 		push();
-			ellipseMode(CORNER);
-			translate(45,0);
-			rotate(radians(-45));		
-			ellipse(0, -10, 50, 20);
+			translate(0,60);
+			line(0,0,0,60)
 		pop();
 	pop();
 }
 
 function drawLeftLeg(px, py, s){
 	push();
-		ellipseMode(CORNER);	
 		translate(px,py);
-		rotate(PI/4);
+		//rotate(PI/5);
 		scale(s);
-		noFill();
 		stroke(0);
-	
-		ellipse(0, -10, 50, 20);
+	    line(-5,0, 0,60);
+	    ellipse(0,60, 10,10);
 		push();
-			ellipseMode(CORNER);
-			translate(45,0);
-			rotate(radians(45));		
-			ellipse(0, -10, 50, 20);
+			translate(0,60);
+			line(0,0,0,60)
 		pop();
 	pop();
 }
