@@ -1,25 +1,24 @@
 'use strict';
 
 var GUI = function() {
+	var that = this;
 	this.nParam = 5;
 	this.sliders = [];
-
-	for(var i = 0; i < this.nParam; i++){
-		this.sliders[i] = createSlider(0, 100,random(100));
-		this.sliders[i].position(20, 30+35*i);
-//		this.sliders[i].changed(function(e) {
-//			this.slideChange(e);
-//			});
-		this.sliders[i].attribute('name', 'sld-' + i);
-	}
-	for(i = 0; i < this.nParam; i++){
-		this.sliders[i].elt.dispatchEvent(new Event('change'));
-	}
-
-	this.getSliders = function(){
+	this.init = function(){
+		for(var i = 0; i < this.nParam; i++){
+			this.sliders[i] = createSlider(0, 100,random(100));
+			this.sliders[i].position(20, 30+35*i);
+			this.sliders[i].changed(this.slideChange);
+			this.sliders[i].attribute('name', 'sld-' + i);
+		}
+		for(i = 0; i < this.nParam; i++){
+			this.sliders[i].elt.dispatchEvent(new Event('change'));
+		}
+	};
+ 	this.getSliders = function(){
 		return this.sliders;
 	};
-	this.drawGUI = function(){
+	this.draw = function(){
 		push();
 			textFont('Helvetica');
 			textSize(15);	
@@ -36,22 +35,23 @@ var GUI = function() {
 	this.slideChange = function(e) {
 		switch(e.target.name){
 			case 'sld-0':
-				this.sliders[1].elt.value = 100 - this.sliders[0].value();
+				that.sliders[1].elt.value = 100 - that.sliders[0].value();
 				break;
 			case 'sld-1':
-				this.sliders[0].elt.value = 100 - this.sliders[1].value();
+				that.sliders[0].elt.value = 100 - that.sliders[1].value();
 				break;
 			case 'sld-2':
-				this.sliders[3].elt.value = 100 - this.sliders[2].value();
+				that.sliders[3].elt.value = 100 - that.sliders[2].value();
 				break;
 			case 'sld-3': 
-				this.sliders[2].elt.value = 100 - this.sliders[3].value();
+				that.sliders[2].elt.value = 100 - that.sliders[3].value();
 				break;
 			case 'sld-4':
 				break;
 		}
 	};
 };
+
 
 
 
@@ -65,6 +65,7 @@ function setup() {
 	noStroke();
 
 	gui = new GUI();
+	gui.init();
 
 
 }
@@ -75,7 +76,7 @@ function setup() {
 
 	 
 	drawBody(width/2, height/2, gui.getSliders());
-	gui.drawGUI();
+	gui.draw();
 
 }
 
