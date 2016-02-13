@@ -4,16 +4,25 @@ var GUI = function() {
 	var that = this;
 	this.nParam = 5;
 	this.sliders = [];
-	this.init = function(){
+	this.icons = [];
+	this.labels = ['Brain', 'Strength', 'Speed', 'Stamina', 'Empathy'];
+	this.init = function(x,y){
+		this.x = x;
+		this.y = y;
+		
+		this.logo = loadImage("imgs/logo.svg");
+
 		for(var i = 0; i < this.nParam; i++){
 			this.sliders[i] = createSlider(0, 100,random(100));
-			this.sliders[i].position(20, 30+35*i);
+			this.sliders[i].position(this.x, this.y + 40*i);
 			this.sliders[i].changed(this.slideChange);
 			this.sliders[i].attribute('name', 'sld-' + i);
+			this.icons[i] = loadImage('imgs/' + this.labels[i] + '.svg');
 		}
 		for(i = 0; i < this.nParam; i++){
 			this.sliders[i].elt.dispatchEvent(new Event('change'));
 		}
+		
 	};
  	this.getSliders = function(){
 		return this.sliders;
@@ -22,14 +31,22 @@ var GUI = function() {
 		push();
 			textFont('Helvetica');
 			textSize(15);	
-		
 			fill(0);
 			textAlign(LEFT,TOP);
-			text('Intelligence', 160, 30 + 35*0);
-			text('Strength', 160, 30 + 35*1);
-			text('Speed', 160, 30 + 35*2);
-			text('Stamina', 160, 30 + 35*3);
-			text('Empathy', 160, 30 + 35*4);
+    		imageMode(CENTER);
+			for(var i = 0; i < this.nParam; i++){
+				text(this.labels[i], this.x + 160, this.y + 40*i);
+				push();
+					translate(this.x, this.y + 40 * i);
+					scale(this.sliders[i].value()/200);
+					image(this.icons[i], 0, 0);
+				pop();
+			}
+			push();
+				translate(windowWidth-60, 60);
+				scale(0.33);
+				image(this.logo, 0,0 );
+			pop();
 		pop();
 	};
 	this.slideChange = function(e) {
@@ -65,7 +82,7 @@ function setup() {
 	noStroke();
 
 	gui = new GUI();
-	gui.init();
+	gui.init(70,40);
 
 
 }
