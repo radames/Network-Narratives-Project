@@ -15,6 +15,7 @@
   "undef": true,
   "unused": false,
   "globals": {
+	"createSelect": true,
 	"store": true,
     "ADD": true,
     "ALT": true,

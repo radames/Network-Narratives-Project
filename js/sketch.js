@@ -5,13 +5,17 @@ var GUI = function() {
 	this.nParam = 5;
 	this.sliders = [];
 	this.icons = [];
+	
 	this.labels = ['Brain', 'Strength', 'Speed', 'Stamina', 'Empathy'];
 	this.init = function(x,y){
 		this.x = x;
 		this.y = y;
 		
 		this.logo = loadImage('imgs/logo.svg');
-
+		this.selType = createSelect();
+		this.selType.position(this.x + 200, this.y);
+		this.selType.option('human');
+		this.selType.option('robot');
 		for(var i = 0; i < this.nParam; i++){
 			this.sliders[i] = createSlider(0, 100,random(100));
 			this.sliders[i].position(this.x, this.y + 40*i);
@@ -23,6 +27,9 @@ var GUI = function() {
 			this.sliders[i].elt.dispatchEvent(new Event('change'));
 		}
 		
+	};
+	this.getType = function(){
+		return this.selType.value();
 	};
  	this.getSliders = function(){
 		return this.sliders;
@@ -69,12 +76,126 @@ var GUI = function() {
 	};
 };
 
+var Character = function(){
+	
+	this.init = function(type, px, py){
+		this.type = type;
+		this.px = px;
+		this.py = py;
+		
+	};
+	this.draw = function(params){
+		if(this.type === 'human'){
+			this.drawHumanBody(this.px, this.py, params);
+		}else{
+			this.drawHumanBody(this.px, this.py, params);
+		}
+	};
+	this.drawHumanBody = function(px, py, sliders){	
+		push();
+			translate(px,py);
+			this.drawTorso(0,20, 0.5 + sliders[4].value()/400.0);
+			this.drawHead(0,-20, 0.5 + sliders[0].value()/100.0);
+			this.drawLeftArm(14,0, 0.5 + sliders[1].value()/100.0);
+			this.drawRightArm(-14,0, 0.5 + sliders[1].value()/100.0);
+			this.drawRightLeg(-12,40, 0.5 + sliders[2].value()/100.0);
+			this.drawLeftLeg(12,40,0.5 + sliders[2].value()/100.0);
+		pop();
+	};
+	this.drawHead = function(px, py, s){
+		push();
 
+			translate(px,py);
+			noFill();
+			stroke(0);
+			ellipse(0, 0, 20*s, 30*s);
+
+		pop();
+
+	};
+	this.drawLeftArm = function(px, py, s){
+		push();
+			translate(px,py);
+			rotate(-PI/3);
+			stroke(0);
+			line(0, 0, 0, 40*s);
+			fill(255);
+			ellipse(0,40*s, 10,10);
+			push();
+				translate(0,40*s);
+				rotate(radians(45));
+				line(0, 0, 0, 40*s);
+			pop();
+		pop();
+	};
+	this.drawRightArm = function(px, py, s){
+		push();
+			translate(px,py);
+			rotate(PI/3);
+			stroke(0);
+			line(0, 0, 0, 40*s);
+			fill(255);
+			ellipse(0,40*s, 10,10);
+			push();
+				translate(0,40*s);
+				rotate(radians(45));
+				line(0, 0, 0, 40*s);
+			pop();
+		pop();
+	};
+	this.drawRightLeg = function(px, py, s){
+		push();
+			translate(px,py);
+			rotate(0);
+			stroke(0);
+			fill(255);
+			line(6,0, 0,60*s);
+			ellipse(0,60*s, 10,10);
+			push();
+				translate(0,60*s);
+				line(0,0,0,60*s);
+			pop();
+		pop();
+	};
+	this.drawLeftLeg = function(px, py, s){
+		push();
+			translate(px,py);
+			rotate(0);
+			stroke(0);
+			fill(255);
+			line(-6,0, 0,60*s);
+			ellipse(0,60*s, 10,10);
+			push();
+				translate(0,60*s);
+				line(0,0,0,60*s);
+			pop();
+		pop();
+	};
+	this.drawTorso = function (px, py, s){
+		push();
+			translate(px,py);
+
+			//scale(s);
+			noFill();
+			stroke(0);
+			//	rect(0,0,40,60);
+
+			beginShape();
+				vertex(-15*s, 30*s);
+				vertex(15*s, 30*s);
+				vertex(20*s, -30*s);
+				vertex(-20*s, -30*s);
+			endShape(CLOSE);
+		pop();
+	};
+
+
+};
 
 
 var gui;
-var json;
-
+var human;
+var robot;
 
 function setup() {
 	// create canvas
@@ -85,6 +206,12 @@ function setup() {
 	gui = new GUI();
 	gui.init(70,40);
 	
+	human = new Character();
+	human.init('human', width/2, height/2);
+	
+	robot = new Character();
+	robot.init('robot', width/2 + 200, height/2);
+
 	if (!store.enabled) {
 		alert('Local storage is not supported by your browser. Please disable "Private Mode", or upgrade to a modern browser.');
 		return;
@@ -95,116 +222,12 @@ function setup() {
  function draw() {
 	  
 	background(255);
+	
+	human.draw(gui.getSliders());
+	robot.draw(gui.getSliders());
 
-	 
-	drawBody(width/2, height/2, gui.getSliders());
 	gui.draw();
 
-}
-
-
-function drawBody(px, py, sliders){	
-	push();
-		translate(px,py);
-		drawTorso(0,20, 0.5 + sliders[4].value()/400.0);
-		drawHead(0,-20, 0.5 + sliders[0].value()/100.0);
-		drawLeftArm(14,0, 0.5 + sliders[1].value()/100.0);
-		drawRightArm(-14,0, 0.5 + sliders[1].value()/100.0);
-		drawRightLeg(-12,40, 0.5 + sliders[2].value()/100.0);
-		drawLeftLeg(12,40,0.5 + sliders[2].value()/100.0);
-	pop();
-}
-
-function drawHead(px, py, s){
-	push();
-	
-		translate(px,py);
-		noFill();
-		stroke(0);
-		ellipse(0, 0, 30*s, 30*s);
-	
-	pop();
-	
-}
-
-function drawLeftArm(px, py, s){
-	push();
-		translate(px,py);
-		rotate(-PI/3);
-		stroke(0);
-	    line(0, 0, 0, 40*s);
-		fill(255);
-		ellipse(0,40*s, 10,10);
-		push();
-			translate(0,40*s);
-			rotate(radians(45));
-		    line(0, 0, 0, 40*s);
-		pop();
-	pop();
-}
-
-function drawRightArm(px, py, s){
-	push();
-		translate(px,py);
-		rotate(PI/3);
-		stroke(0);
-	    line(0, 0, 0, 40*s);
-		fill(255);
-		ellipse(0,40*s, 10,10);
-		push();
-			translate(0,40*s);
-			rotate(radians(45));
-		    line(0, 0, 0, 40*s);
-		pop();
-	pop();
-}
-
-function drawRightLeg(px, py, s){
-	push();
-		translate(px,py);
-		rotate(0);
-		stroke(0);
-		fill(255);
-	    line(6,0, 0,60*s);
-	    ellipse(0,60*s, 10,10);
-		push();
-			translate(0,60*s);
-			line(0,0,0,60*s);
-		pop();
-	pop();
-}
-
-function drawLeftLeg(px, py, s){
-	push();
-		translate(px,py);
-		rotate(0);
-		stroke(0);
-		fill(255);
-	    line(-6,0, 0,60*s);
-	    ellipse(0,60*s, 10,10);
-		push();
-			translate(0,60*s);
-			line(0,0,0,60*s);
-		pop();
-	pop();
-}
-
-function drawTorso(px, py, s){
-	push();
-		translate(px,py);
-
-		//scale(s);
-		noFill();
-		stroke(0);
-		//	rect(0,0,40,60);
-	
-		beginShape();
-			vertex(-15*s, 30*s);
-			vertex(15*s, 30*s);
-			vertex(20*s, -30*s);
-			vertex(-20*s, -30*s);
-		endShape(CLOSE);
-	pop();
 }
 
 
