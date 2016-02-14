@@ -8,12 +8,14 @@
   // Example: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
   // Documentation: http://www.jshint.com/docs/options/
   "browser": true,
+  "devel": true,
   "esnext": true,
   "globalstrict": true,
   "quotmark": true,
   "undef": true,
   "unused": false,
   "globals": {
+	"store": true,
     "ADD": true,
     "ALT": true,
     "ARROW": true,
