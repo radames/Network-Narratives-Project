@@ -88,8 +88,19 @@ var Character = function(){
 		if(this.type === 'human'){
 			this.drawHumanBody(this.px, this.py, params);
 		}else{
-			this.drawHumanBody(this.px, this.py, params);
+			this.drawRobotBody(this.px, this.py, params);
 		}
+	};
+	this.drawRobotBody = function(px, py, sliders){	
+		push();
+			translate(px,py);
+			this.drawTorso(0,20, 0.5 + sliders[4].value()/400.0);
+			this.drawRobotHead(0,-20, 0.5 + sliders[0].value()/100.0);
+			this.drawLeftArmRobot(14,0, 0.5 + sliders[1].value()/100.0);
+			this.drawRightArmRobot(-14,0, 0.5 + sliders[1].value()/100.0);
+			this.drawRightLeg(-12,40, 0.5 + sliders[2].value()/100.0);
+			this.drawLeftLeg(12,40,0.5 + sliders[2].value()/100.0);
+		pop();
 	};
 	this.drawHumanBody = function(px, py, sliders){	
 		push();
@@ -102,6 +113,67 @@ var Character = function(){
 			this.drawLeftLeg(12,40,0.5 + sliders[2].value()/100.0);
 		pop();
 	};
+	this.drawRobotHead = function(px, py, s){
+		push();
+			rectMode(CENTER);
+			translate(px,py);
+			noFill();
+			stroke(0);
+			rect(0, 0, 20*s, 30*s,1);
+
+		pop();
+	};
+	this.drawLeftArmRobot = function(px, py, s){
+		push();	
+			translate(px,py);
+			rotate(0);
+			stroke(0);
+			push();
+				translate(-10*s/2,0);
+				beginShape();
+					vertex(0,0);
+					vertex(10*s,0);
+					vertex(10*s, 40*s);
+					vertex(0, 40*s);
+				endShape(CLOSE);
+				push();
+					translate(0,40*s);
+					beginShape();
+						vertex(-3,0);
+						vertex(13*s,0);
+						vertex(13*s, 5*s);
+						vertex(-3, 5*s);
+					endShape(CLOSE);
+				pop();
+			pop();
+		pop();
+	};
+	this.drawRightArmRobot = function(px, py, s){
+		push();	
+			translate(px,py);
+			rotate(0);
+			stroke(0);
+			push();
+				translate(-10*s/2,0);
+				beginShape();
+					vertex(0,0);
+					vertex(10*s,0);
+					vertex(10*s, 40*s);
+					vertex(0, 40*s);
+				endShape(CLOSE);
+				push();
+					translate(0,40*s);
+					beginShape();
+						vertex(-3,0);
+						vertex(13*s,0);
+						vertex(13*s, 5*s);
+						vertex(-3, 5*s);
+					endShape(CLOSE);
+				pop();
+			pop();
+		pop();
+	};
+	
 	this.drawHead = function(px, py, s){
 		push();
 
