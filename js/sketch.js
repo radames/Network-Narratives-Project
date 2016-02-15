@@ -94,23 +94,25 @@ var Character = function(){
 	this.drawRobotBody = function(px, py, sliders){	
 		push();
 			translate(px,py);
-			this.drawTorso(0,20, 0.5 + sliders[4].value()/400.0);
 			this.drawRobotHead(0,-20, 0.5 + sliders[0].value()/100.0);
-			this.drawLeftArmRobot(14,0, 0.5 + sliders[1].value()/100.0);
-			this.drawRightArmRobot(-14,0, 0.5 + sliders[1].value()/100.0);
-			this.drawRightLeg(-12,40, 0.5 + sliders[2].value()/100.0);
-			this.drawLeftLeg(12,40,0.5 + sliders[2].value()/100.0);
+			this.drawRobotLeftArm(20,0, 0.5 + sliders[1].value()/100.0);
+			this.drawRobotRightArm(-20,0, 0.5 + sliders[1].value()/100.0);
+			this.drawRobotTorso(0,10, 0.5 + sliders[4].value()/400.0);
+
+			//this.drawRightLeg(-12,40, 0.5 + sliders[2].value()/100.0);
+			//this.drawLeftLeg(12,40,0.5 + sliders[2].value()/100.0);
 		pop();
 	};
 	this.drawHumanBody = function(px, py, sliders){	
 		push();
 			translate(px,py);
-			this.drawTorso(0,20, 0.5 + sliders[4].value()/400.0);
 			this.drawHead(0,-20, 0.5 + sliders[0].value()/100.0);
 			this.drawLeftArm(14,0, 0.5 + sliders[1].value()/100.0);
 			this.drawRightArm(-14,0, 0.5 + sliders[1].value()/100.0);
 			this.drawRightLeg(-12,40, 0.5 + sliders[2].value()/100.0);
 			this.drawLeftLeg(12,40,0.5 + sliders[2].value()/100.0);
+			this.drawTorso(0,20, 0.5 + sliders[4].value()/400.0);
+
 		pop();
 	};
 	this.drawRobotHead = function(px, py, s){
@@ -123,7 +125,7 @@ var Character = function(){
 
 		pop();
 	};
-	this.drawLeftArmRobot = function(px, py, s){
+	this.drawRobotLeftArm = function(px, py, s){
 		push();	
 			translate(px,py);
 			rotate(0);
@@ -148,7 +150,7 @@ var Character = function(){
 			pop();
 		pop();
 	};
-	this.drawRightArmRobot = function(px, py, s){
+	this.drawRobotRightArm = function(px, py, s){
 		push();	
 			translate(px,py);
 			rotate(0);
@@ -173,6 +175,26 @@ var Character = function(){
 			pop();
 		pop();
 	};
+	this.drawRobotTorso = function (px, py, s){
+		push();
+			translate(px,py);
+
+			//scale(s);
+			fill(255);
+			stroke(0);
+			push();
+				translate(-40*s/2,-40*s/2);
+				beginShape();
+					vertex(0*s, 80*s);
+					vertex(40*s, 80*s);
+					vertex(40*s, 0);
+					vertex(0, 0);
+				endShape(CLOSE);
+			pop();
+		pop();
+	};
+
+//---------------Human --------
 	
 	this.drawHead = function(px, py, s){
 		push();
@@ -248,15 +270,15 @@ var Character = function(){
 			translate(px,py);
 
 			//scale(s);
-			noFill();
+			fill(255);
 			stroke(0);
 			//	rect(0,0,40,60);
 
 			beginShape();
-				vertex(-15*s, 30*s);
-				vertex(15*s, 30*s);
-				vertex(20*s, -30*s);
-				vertex(-20*s, -30*s);
+				vertex(-15*s, 40*s);
+				vertex(15*s, 40*s);
+				vertex(20*s, -40*s);
+				vertex(-20*s, -40*s);
 			endShape(CLOSE);
 		pop();
 	};
