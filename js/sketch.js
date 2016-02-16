@@ -3,10 +3,7 @@
 var GUI = function() {
 	var that = this;
 	this.nParam = 5;
-	this.sliders = [];
-	this.icons = [];
-		
-	this.labels = ['Brain', 'Strength', 'Speed', 'Stamina', 'Empathy'];
+
 	this.init = function(x,y){
 		this.x = x;
 		this.y = y;
@@ -17,51 +14,82 @@ var GUI = function() {
 
 		this.label1 = createSpan('&nbsp;I want to build a&nbsp;');
 		this.label2 = createSpan('&nbsp;It lives in&nbsp;');
+		this.label1.addClass('h4');
+		this.label2.addClass('h4');
 
-		//this.label1.style('background-color: rgba(255, 255, 255, 0.9)');
-		this.label1.position(this.x, this.y + 200);
-		this.label2.position(this.x, this.y + 230);
+		this.label1.position(this.x - 40, this.y + 200);
+		this.label2.position(this.x - 40, this.y + 230);
 
-		this.selType.position(this.x + 130, this.y + 200);
-		this.locationType.position(this.x + 130, this.y + 230);
+		this.selType.position(this.x + 110, this.y + 200);
+		this.locationType.position(this.x + 110, this.y + 240);
 		this.selType.option('Human');
 		this.selType.option('Robot');
+		this.selType.addClass('form-control');
+		this.selType.style('width:100px');
+
 		this.locationType.option('Burnley');
 		this.locationType.option('Hull');
 		this.locationType.option('Wigan');
+		this.locationType.addClass('form-control');
+		this.locationType.style('width:100px');
 
 		this.creationName = createInput('');
-		this.creationName.position(this.x, this.y + 260);
-		this.creationName.attribute('size', '30');
+		this.creationName.position(this.x - 40 , this.y + 280);
+		this.creationName.attribute('size', '40');
 		this.creationName.attribute('maxlength','30');
 		this.creationName.attribute('placeholder', 'The name of my creations is');
-		
+		this.creationName.style('width:250px');
+		this.creationName.addClass('form-control');
+
 		this.creationInfo = createElement('textarea');
-		this.creationInfo.position(this.x, this.y + 290);
+		this.creationInfo.position(this.x - 40, this.y + 320);
 		this.creationInfo.attribute('placeholder', 'Write about your creation');
 		this.creationInfo.style('resize:none;');
 		this.creationInfo.attribute('cols', '28');
 		this.creationInfo.attribute('rows', '7');
+		this.creationInfo.style('width:250px');
+		this.creationInfo.addClass('form-control');
 
 		this.buttonRec = createButton('Run');
 
-		this.buttonRec.position(this.x, this.y + 400);
+		this.buttonRec.position(this.x - 40, this.y + 500);
 
 		this.buttonSave = createButton('Create');
-		this.buttonSave.position(this.x, this.y + 430);
-
+		this.buttonSave.position(this.x + 40, this.y + 500);
+ 		this.buttonSave.mousePressed(this.saveFn);
+		this.buttonRec.mousePressed(this.runFn);
 		
+		this.sliders = [];
+		this.icons = [];
+		this.labels = ['Brain', 'Strength', 'Speed', 'Stamina', 'Empathy'];
+		this.htmlLables = [];
 		for(var i = 0; i < this.nParam; i++){
 			this.sliders[i] = createSlider(0, 100,random(100));
+			this.htmlLables[i] = createSpan(this.labels[i]);
+			this.htmlLables[i].position(this.x + 135, this.y + 40*i);
+			this.htmlLables[i].addClass('h4');
+			
+			this.sliders[i].addClass('form-control');
 			this.sliders[i].position(this.x, this.y + 40*i);
 			this.sliders[i].changed(this.slideChange);
 			this.sliders[i].attribute('name', 'sld-' + i);
+			this.sliders[i].style('width:130px');
 			this.icons[i] = loadImage('imgs/' + this.labels[i] + '.svg');
 		}
 		for(i = 0; i < this.nParam; i++){
 			this.sliders[i].elt.dispatchEvent(new Event('change'));
 		}
 		
+	};
+	this.saveFn = function(){
+		this.json = {};
+
+		if(that.creationInfo.value() === '' || that.creationName.value() === ''){
+			console.log('Please add the name and the info about your creation');
+		}
+	};
+	this.runFn = function(){
+		alert('RUN');	
 	};
 	this.getType = function(){
 		return this.selType.value();
@@ -71,15 +99,11 @@ var GUI = function() {
 	};
 	this.draw = function(){
 		push();
-			textFont('Helvetica');
-			textSize(15);	
 			fill(0);
-			textAlign(LEFT,TOP);
     		imageMode(CENTER);
 			for(var i = 0; i < this.nParam; i++){
-				text(this.labels[i], this.x + 140, this.y + 40*i);
 				push();
-					translate(this.x-30, this.y + 40 * i);
+					translate(this.x-30, this.y + 45 * i);
 					scale(0.2+this.sliders[i].value()/300);
 					image(this.icons[i], 0, 0);
 				pop();
@@ -151,7 +175,7 @@ var Character = function(){
 		push();
 			translate(px,py);
 			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
-			this.drawTorso(0,20, 0.5 + sliders[4].value()/500.0);
+			this.drawTorso(0,20, 0.5 + sliders[4].value()/200.0);
 			this.drawHead(0,-25, 1 + sliders[0].value()/100.0);
 			this.drawLeftArm(14,0, 1 + sliders[1].value()/100.0);
 			this.drawRightArm(-14,0, 1 + sliders[1].value()/100.0);
