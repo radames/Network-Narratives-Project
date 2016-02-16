@@ -50,7 +50,7 @@ var GUI = function() {
 				pop();
 			}
 			push();
-				translate(windowWidth-60, 60);
+				translate(width-60, 60);
 				scale(0.33);
 				image(this.logo, 0,0 );
 			pop();
@@ -82,6 +82,7 @@ var Character = function(){
 		this.type = type;
 		this.px = px;
 		this.py = py;
+		this.thick = 3;
 		
 	};
 	this.draw = function(params){
@@ -94,10 +95,11 @@ var Character = function(){
 	this.drawRobotBody = function(px, py, sliders){	
 		push();
 			translate(px,py);
-			this.drawRobotBase(0,50, 0.5 + sliders[2].value()/100.0);
+			this.drawRobotBase(0,40, 0.5 + sliders[2].value()/100.0);
+			this.drawRobotTorso(0,0, 0.5 + sliders[4].value()/500.0);
+
 			this.drawRobotLeftArm(20,0, 0.5 + sliders[1].value()/100.0);
 			this.drawRobotRightArm(-20,0, 0.5 + sliders[1].value()/100.0);
-			this.drawRobotTorso(0,0, 0.5 + sliders[4].value()/500.0);
 			this.drawRobotHead(0,-20, 0.5 + sliders[0].value()/100.0);
 
 
@@ -106,21 +108,23 @@ var Character = function(){
 	this.drawHumanBody = function(px, py, sliders){	
 		push();
 			translate(px,py);
-			this.drawTorso(0,20, 0.5 + sliders[4].value()/400.0);
-			this.drawLeftArm(14,0, 0.5 + sliders[1].value()/100.0);
-			this.drawRightArm(-14,0, 0.5 + sliders[1].value()/100.0);
-			this.drawRightLeg(-12,50, 0.5 + sliders[2].value()/100.0);
-			this.drawLeftLeg(12,50,0.5 + sliders[2].value()/100.0);
-			this.drawHead(0,-20, 0.5 + sliders[0].value()/100.0);
+			this.drawTorso(0,20, 0.5 + sliders[4].value()/500.0);
+			this.drawLeftArm(14,0, 1 + sliders[1].value()/100.0);
+			this.drawRightArm(-14,0, 1 + sliders[1].value()/100.0);
+			this.drawRightLeg(-12,50, 1 + sliders[2].value()/100.0);
+			this.drawLeftLeg(12,50, 1 + sliders[2].value()/100.0);
+			this.drawHead(0,-20, 1 + sliders[0].value()/100.0);
 
 
 		pop();
 	};
 	this.drawRobotHead = function(px, py, s){
 		push();
+			strokeWeight(this.thick);
+
 			rectMode(CENTER);
 			translate(px,py);
-			noFill();
+			fill(255);
 			stroke(0);
 			rect(0, 0, 20*s, 30*s,1);
 			push();
@@ -133,8 +137,10 @@ var Character = function(){
 	};
 	this.drawRobotLeftArm = function(px, py, s){
 		push();	
+			strokeWeight(this.thick);
+
 			translate(px,py);
-			rotate(0);
+			rotate(atan2(mouseY-height/2, mouseX-width/2));
 			stroke(0);
 			push();
 				translate(-10*s/2,0);
@@ -158,8 +164,10 @@ var Character = function(){
 	};
 	this.drawRobotRightArm = function(px, py, s){
 		push();	
+			strokeWeight(this.thick);
+
 			translate(px,py);
-			rotate(0);
+			rotate(-atan2(mouseY-height/2, mouseX-width/2));
 			stroke(0);
 			push();
 				translate(-10*s/2,0);
@@ -183,6 +191,8 @@ var Character = function(){
 	};
 	this.drawRobotTorso = function (px, py, s){
 		push();
+			strokeWeight(this.thick);
+
 			translate(px,py);
 
 			//scale(s);
@@ -201,6 +211,7 @@ var Character = function(){
 	};
 	this.drawRobotBase = function (px, py, s){
 		push();
+			strokeWeight(this.thick);
 			translate(px,py);
 
 			//scale(s);
@@ -209,10 +220,10 @@ var Character = function(){
 			push();
 				translate(-80*s/2,0);
 				beginShape();
-					vertex(20*s, 0);
+					vertex(30*s, 0);
 					vertex(0, 50*s);
 					vertex(80*s, 50*s);
-					vertex(60*s, 0);
+					vertex(50*s, 0);
 
 				endShape(CLOSE);
 			
@@ -233,9 +244,9 @@ var Character = function(){
 	
 	this.drawHead = function(px, py, s){
 		push();
-
+			strokeWeight(this.thick);
 			translate(px,py);
-			noFill();
+			fill(255);
 			stroke(0);
 			ellipse(0, 0, 20*s, 30*s);
 
@@ -244,6 +255,7 @@ var Character = function(){
 	};
 	this.drawLeftArm = function(px, py, s){
 		push();
+			strokeWeight(this.thick);
 			translate(px,py);
 			rotate(atan2(mouseY-height/2, mouseX-width/2));
 			stroke(0);
@@ -259,6 +271,7 @@ var Character = function(){
 	};
 	this.drawRightArm = function(px, py, s){
 		push();
+			strokeWeight(this.thick);
 			translate(px,py);
 			rotate(-atan2(mouseY-height/2, mouseX-width/2));
 			stroke(0);
@@ -274,6 +287,7 @@ var Character = function(){
 	};
 	this.drawRightLeg = function(px, py, s){
 		push();
+			strokeWeight(this.thick);
 			translate(px,py);
 			rotate(0);
 			stroke(0);
@@ -288,6 +302,7 @@ var Character = function(){
 	};
 	this.drawLeftLeg = function(px, py, s){
 		push();
+			strokeWeight(this.thick);
 			translate(px,py);
 			rotate(0);
 			stroke(0);
@@ -302,6 +317,7 @@ var Character = function(){
 	};
 	this.drawTorso = function (px, py, s){
 		push();
+			strokeWeight(this.thick);
 			translate(px,py);
 
 			//scale(s);
@@ -325,10 +341,11 @@ var Character = function(){
 var gui;
 var human;
 var robot;
+var backImg;
 
 function setup() {
 	// create canvas
-	createCanvas(windowWidth, windowHeight);
+	createCanvas(1024, 768);
 	textSize(15);
 	noStroke();
 
@@ -336,33 +353,26 @@ function setup() {
 	gui.init(70,40);
 	
 	human = new Character();
-	human.init('human', width/2, height/2);
+	human.init('human', width/2, height - 250);
 	
 	robot = new Character();
-	robot.init('robot', width/2 + 200, height/2);
+	robot.init('robot', width/2 + 200, height - 150);
 
 	if (!store.enabled) {
 		alert('Local storage is not supported by your browser. Please disable "Private Mode", or upgrade to a modern browser.');
 		return;
 	}
 
+	backImg = loadImage('imgs/Biobackground2.jpg');
 }
   
  function draw() {
 	  
 	background(255);
-	
+	image(backImg,0,0);
 	human.draw(gui.getSliders());
 	robot.draw(gui.getSliders());
 
 	gui.draw();
 
-}
-
-
-
-
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
 }
