@@ -5,7 +5,8 @@ var GUI = function() {
 	this.nParam = 5;
 	this.sliders = [];
 	this.icons = [];
-	
+	this.label1 = 
+		
 	this.labels = ['Brain', 'Strength', 'Speed', 'Stamina', 'Empathy'];
 	this.init = function(x,y){
 		this.x = x;
@@ -13,9 +14,13 @@ var GUI = function() {
 		
 		this.logo = loadImage('imgs/logo.svg');
 		this.selType = createSelect();
-		this.selType.position(this.x + 200, this.y);
+		this.selType.position(this.x + 110, this.y + 200);
 		this.selType.option('human');
 		this.selType.option('robot');
+		this.label1 = createSpan('I want to build a');
+		this.label1.style('background-color: rgba(255, 255, 255, 0.9)');
+		this.label1.position(this.x, this.y + 200);
+		
 		for(var i = 0; i < this.nParam; i++){
 			this.sliders[i] = createSlider(0, 100,random(100));
 			this.sliders[i].position(this.x, this.y + 40*i);
@@ -85,6 +90,9 @@ var Character = function(){
 		this.thick = 3;
 		
 	};
+	this.setX = function(px){
+		this.px = px;	
+	};
 	this.draw = function(params){
 		if(this.type === 'human'){
 			this.drawHumanBody(this.px, this.py, params);
@@ -97,10 +105,9 @@ var Character = function(){
 			translate(px,py);
 			this.drawRobotBase(0,40, 0.5 + sliders[2].value()/100.0);
 			this.drawRobotTorso(0,0, 0.5 + sliders[4].value()/500.0);
-
+			this.drawRobotHead(0,-25, 0.5 + sliders[0].value()/100.0);
 			this.drawRobotLeftArm(20,0, 0.5 + sliders[1].value()/100.0);
 			this.drawRobotRightArm(-20,0, 0.5 + sliders[1].value()/100.0);
-			this.drawRobotHead(0,-20, 0.5 + sliders[0].value()/100.0);
 
 
 		pop();
@@ -108,12 +115,13 @@ var Character = function(){
 	this.drawHumanBody = function(px, py, sliders){	
 		push();
 			translate(px,py);
+			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
 			this.drawTorso(0,20, 0.5 + sliders[4].value()/500.0);
+			this.drawHead(0,-25, 1 + sliders[0].value()/100.0);
 			this.drawLeftArm(14,0, 1 + sliders[1].value()/100.0);
 			this.drawRightArm(-14,0, 1 + sliders[1].value()/100.0);
-			this.drawRightLeg(-12,50, 1 + sliders[2].value()/100.0);
-			this.drawLeftLeg(12,50, 1 + sliders[2].value()/100.0);
-			this.drawHead(0,-20, 1 + sliders[0].value()/100.0);
+			this.drawRightLeg(-12,50, 0.5 + sliders[2].value()/100.0);
+			this.drawLeftLeg(12,50, 0.5 + sliders[2].value()/100.0);
 
 
 		pop();
@@ -372,7 +380,7 @@ function setup() {
 	image(backImg,0,0);
 	human.draw(gui.getSliders());
 	robot.draw(gui.getSliders());
-
+	//robot.setX(mouseX);
 	gui.draw();
 
 }
