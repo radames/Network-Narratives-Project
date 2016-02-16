@@ -5,7 +5,6 @@ var GUI = function() {
 	this.nParam = 5;
 	this.sliders = [];
 	this.icons = [];
-	this.label1 = 
 		
 	this.labels = ['Brain', 'Strength', 'Speed', 'Stamina', 'Empathy'];
 	this.init = function(x,y){
@@ -14,12 +13,43 @@ var GUI = function() {
 		
 		this.logo = loadImage('imgs/logo.svg');
 		this.selType = createSelect();
-		this.selType.position(this.x + 110, this.y + 200);
-		this.selType.option('human');
-		this.selType.option('robot');
-		this.label1 = createSpan('I want to build a');
-		this.label1.style('background-color: rgba(255, 255, 255, 0.9)');
+		this.locationType = createSelect();
+
+		this.label1 = createSpan('&nbsp;I want to build a&nbsp;');
+		this.label2 = createSpan('&nbsp;It lives in&nbsp;');
+
+		//this.label1.style('background-color: rgba(255, 255, 255, 0.9)');
 		this.label1.position(this.x, this.y + 200);
+		this.label2.position(this.x, this.y + 230);
+
+		this.selType.position(this.x + 130, this.y + 200);
+		this.locationType.position(this.x + 130, this.y + 230);
+		this.selType.option('Human');
+		this.selType.option('Robot');
+		this.locationType.option('Burnley');
+		this.locationType.option('Hull');
+		this.locationType.option('Wigan');
+
+		this.creationName = createInput('');
+		this.creationName.position(this.x, this.y + 260);
+		this.creationName.attribute('size', '30');
+		this.creationName.attribute('maxlength','30');
+		this.creationName.attribute('placeholder', 'The name of my creations is');
+		
+		this.creationInfo = createElement('textarea');
+		this.creationInfo.position(this.x, this.y + 290);
+		this.creationInfo.attribute('placeholder', 'Write about your creation');
+		this.creationInfo.style('resize:none;');
+		this.creationInfo.attribute('cols', '28');
+		this.creationInfo.attribute('rows', '7');
+
+		this.buttonRec = createButton('Run');
+
+		this.buttonRec.position(this.x, this.y + 400);
+
+		this.buttonSave = createButton('Create');
+		this.buttonSave.position(this.x, this.y + 450);
+
 		
 		for(var i = 0; i < this.nParam; i++){
 			this.sliders[i] = createSlider(0, 100,random(100));
@@ -366,11 +396,6 @@ function setup() {
 	robot = new Character();
 	robot.init('robot', width/2 + 200, height - 150);
 
-	if (!store.enabled) {
-		alert('Local storage is not supported by your browser. Please disable "Private Mode", or upgrade to a modern browser.');
-		return;
-	}
-
 	backImg = loadImage('imgs/Biobackground2.jpg');
 }
   
@@ -380,7 +405,7 @@ function setup() {
 	image(backImg,0,0);
 	human.draw(gui.getSliders());
 	robot.draw(gui.getSliders());
-	//robot.setX(mouseX);
+	robot.setX(mouseX);
 	gui.draw();
 
 }

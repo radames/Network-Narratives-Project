@@ -16,6 +16,9 @@
   "unused": false,
   "globals": {
 	"createSelect": true,
+	"createSpan":true,
+	"createElement":true,
+	"createButton":true,
 	"store": true,
     "ADD": true,
     "ALT": true,
