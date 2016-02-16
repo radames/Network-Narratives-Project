@@ -48,7 +48,7 @@ var GUI = function() {
 		this.buttonRec.position(this.x, this.y + 400);
 
 		this.buttonSave = createButton('Create');
-		this.buttonSave.position(this.x, this.y + 450);
+		this.buttonSave.position(this.x, this.y + 430);
 
 		
 		for(var i = 0; i < this.nParam; i++){
@@ -95,9 +95,11 @@ var GUI = function() {
 		switch(e.target.name){
 			case 'sld-0':
 				that.sliders[1].elt.value = 100 - that.sliders[0].value();
+				that.sliders[4].elt.value = 100 - that.sliders[0].value();
 				break;
 			case 'sld-1':
 				that.sliders[0].elt.value = 100 - that.sliders[1].value();
+//				that.sliders[4].elt.value = 100 - that.sliders[0].value();
 				break;
 			case 'sld-2':
 				that.sliders[3].elt.value = 100 - that.sliders[2].value();
@@ -106,6 +108,9 @@ var GUI = function() {
 				that.sliders[2].elt.value = 100 - that.sliders[3].value();
 				break;
 			case 'sld-4':
+				that.sliders[0].elt.value = 100 - that.sliders[4].value();
+				that.sliders[1].elt.value = 100 - that.sliders[0].value();
+
 				break;
 		}
 	};
@@ -297,13 +302,21 @@ var Character = function(){
 			translate(px,py);
 			rotate(atan2(mouseY-height/2, mouseX-width/2));
 			stroke(0);
-			line(0, 0, 0, 30*s);
-			fill(255);
-			ellipse(0,30*s, 10,10);
 			push();
-				translate(0,30*s);
+				rotate(PI/2);
+				ellipseMode(CORNER);
+				ellipse(0,-10*s/2, 40,10*s);
+			pop();
+			fill(255);
+			ellipse(0,40, 10,10);
+			push();
+				translate(0,40);
 				rotate(atan2(mouseY-height/2, mouseX-width/2));
-				line(0, 0, 0, 40*s);
+				push();
+					rotate(PI/2);
+					ellipseMode(CORNER);
+					ellipse(0,-5*s/2, 45,5*s);
+				pop();
 			pop();
 		pop();
 	};
@@ -313,13 +326,21 @@ var Character = function(){
 			translate(px,py);
 			rotate(-atan2(mouseY-height/2, mouseX-width/2));
 			stroke(0);
-			line(0, 0, 0, 30*s);
-			fill(255);
-			ellipse(0,30*s, 10,10);
 			push();
-				translate(0,30*s);
-				rotate(radians(45));
-				line(0, 0, 0, 40*s);
+				rotate(PI/2);
+				ellipseMode(CORNER);
+				ellipse(0,-10*s/2, 40,10*s);
+			pop();
+			fill(255);
+			ellipse(0,40, 10,10);
+			push();
+				translate(0,40);
+				rotate(-atan2(mouseY-height/2, mouseX-width/2));
+				push();
+					rotate(PI/2);
+					ellipseMode(CORNER);
+					ellipse(0,-5*s/2, 45,5*s);
+				pop();
 			pop();
 		pop();
 	};
@@ -364,10 +385,10 @@ var Character = function(){
 			//	rect(0,0,40,60);
 
 			beginShape();
-				vertex(-15*s, 40*s);
-				vertex(15*s, 40*s);
-				vertex(20*s, -40*s);
-				vertex(-20*s, -40*s);
+				vertex(-15*s, 30);
+				vertex(15*s, 30);
+				vertex(20*s, -30);
+				vertex(-20*s, -30);
 			endShape(CLOSE);
 		pop();
 	};
@@ -405,7 +426,7 @@ function setup() {
 	image(backImg,0,0);
 	human.draw(gui.getSliders());
 	robot.draw(gui.getSliders());
-	robot.setX(mouseX);
+	//robot.setX(mouseX);
 	gui.draw();
 
 }
