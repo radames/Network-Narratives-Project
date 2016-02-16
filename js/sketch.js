@@ -3,7 +3,7 @@
 var GUI = function() {
 	var that = this;
 	this.nParam = 5;
-
+	this.running = false;
 	this.init = function(x,y){
 		this.x = x;
 		this.y = y;
@@ -50,14 +50,19 @@ var GUI = function() {
 		this.creationInfo.style('width:250px');
 		this.creationInfo.addClass('form-control');
 
-		this.buttonRec = createButton('Run');
+		this.buttonRun = createButton('Run');
 
-		this.buttonRec.position(this.x - 40, this.y + 500);
+		this.buttonRun.position(this.x - 40, this.y + 500);
 
-		this.buttonSave = createButton('Create');
-		this.buttonSave.position(this.x + 40, this.y + 500);
- 		this.buttonSave.mousePressed(this.saveFn);
-		this.buttonRec.mousePressed(this.runFn);
+		this.buttonCreate = createButton('Create');
+		this.buttonCreate.position(this.x + 140, this.y + 500);
+		this.buttonCreate.addClass('btn btn-default');
+		
+ 		this.buttonCreate.mousePressed(this.saveFn);
+		this.buttonRun.mousePressed(this.runFn);
+		this.buttonRun.attribute('id','runBtn');
+		this.buttonRun.addClass('btn btn-default');
+
 		
 		this.sliders = [];
 		this.icons = [];
@@ -85,11 +90,18 @@ var GUI = function() {
 		this.json = {};
 
 		if(that.creationInfo.value() === '' || that.creationName.value() === ''){
+			$('#errorFormModal').modal();
 			console.log('Please add the name and the info about your creation');
 		}
 	};
 	this.runFn = function(){
-		alert('RUN');	
+		if(!that.running){
+			that.running = true;
+			that.buttonRun.html('Running');
+		}else{
+			that.running = false;
+			that.buttonRun.html('Run');
+		}
 	};
 	this.getType = function(){
 		return this.selType.value();
@@ -142,8 +154,7 @@ var GUI = function() {
 
 var Character = function(){
 	
-	this.init = function(type, px, py){
-		this.type = type;
+	this.init = function(px, py){
 		this.px = px;
 		this.py = py;
 		this.thick = 3;
@@ -152,16 +163,17 @@ var Character = function(){
 	this.setX = function(px){
 		this.px = px;	
 	};
-	this.draw = function(params){
-		if(this.type === 'human'){
+	this.draw = function(params, charType){
+		if(charType === 'Human'){
 			this.drawHumanBody(this.px, this.py, params);
 		}else{
-			this.drawRobotBody(this.px, this.py, params);
+			this.drawRobotBody(this.px, this.py+50, params);
 		}
 	};
 	this.drawRobotBody = function(px, py, sliders){	
 		push();
 			translate(px,py);
+			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
 			this.drawRobotBase(0,40, 0.5 + sliders[2].value()/100.0);
 			this.drawRobotTorso(0,0, 0.5 + sliders[4].value()/500.0);
 			this.drawRobotHead(0,-25, 0.5 + sliders[0].value()/100.0);
@@ -422,8 +434,7 @@ var Character = function(){
 
 
 var gui;
-var human;
-var robot;
+var character;
 var backImg;
 
 function setup() {
@@ -435,11 +446,9 @@ function setup() {
 	gui = new GUI();
 	gui.init(70,40);
 	
-	human = new Character();
-	human.init('human', width/2, height - 250);
+	character = new Character();
+	character.init(width/2, height - 200);
 	
-	robot = new Character();
-	robot.init('robot', width/2 + 200, height - 150);
 
 	backImg = loadImage('imgs/Biobackground2.jpg');
 }
@@ -448,8 +457,7 @@ function setup() {
 	  
 	background(255);
 	image(backImg,0,0);
-	human.draw(gui.getSliders());
-	robot.draw(gui.getSliders());
+	character.draw(gui.getSliders(), gui.getType());
 	//robot.setX(mouseX);
 	gui.draw();
 

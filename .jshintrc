@@ -15,6 +15,7 @@
   "undef": true,
   "unused": false,
   "globals": {
+	"$": false,
 	"createSelect": true,
 	"createSpan":true,
 	"createElement":true,
