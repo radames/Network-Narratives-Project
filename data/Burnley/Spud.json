@@ -1,0 +1,13 @@
+{
+  "creationName": "Spud",
+  "creationInfo": "The main function of Spud is to moan.  This is useful at meetings.",
+  "charType": "Human",
+  "locationType": "Burnley",
+  "sliders": [
+    85,
+    15,
+    12,
+    88,
+    15
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "creationName": "The Winter Soldier",
+  "creationInfo": "Taken prisoner in 1944 this robot used to be a man named James Buchanan Barnes. Tortured and brainwashed for 70 years. He was cryogenically frozen between missions. The most recent torture devised by Hydra has been to turn him into a robot.",
+  "charType": "Robot",
+  "locationType": "Burnley",
+  "sliders": [
+    20,
+    100,
+    90,
+    90,
+    0
+  ]
+}

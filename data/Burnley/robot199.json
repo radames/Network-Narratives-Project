@@ -1,0 +1,13 @@
+{
+  "creationName": "robot199",
+  "creationInfo": "he can crete other robots",
+  "charType": "Robot",
+  "locationType": "Burnley",
+  "sliders": [
+    44,
+    56,
+    0,
+    100,
+    40
+  ]
+}

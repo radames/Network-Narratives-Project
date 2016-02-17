@@ -1,0 +1,13 @@
+{
+  "creationName": "Captain America",
+  "creationInfo": "After his friend Bucky went of to war Steve agreed to be part of experiments to create a super soldier. These experiments worked but in the process they turned him into a robot. In the end Steve managed to get sent to the front lines where he led a team called the howling commandos with his second in command James 'Bucky' Barnes. However this ended when he crashed a plane into ice. He was found seventy years later and joined a team called the Avengers.",
+  "charType": "Robot",
+  "locationType": "Burnley",
+  "sliders": [
+    30,
+    100,
+    100,
+    100,
+    50
+  ]
+}

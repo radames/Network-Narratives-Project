@@ -1,0 +1,13 @@
+{
+  "creationName": "HRH Queen Elizabeth II",
+  "creationInfo": "HRH is the latest in the line of dynastic robots. Excellent endurance, built to last. This robot exhibits zero empathy due to the environment it was manufactured in. It gives a good balance of intelligence and strength although not able to travel quickly needing 3rd party transportation usually provided by other robots. Available as part of a set of other dynastic robots that exhibit similar characteristics",
+  "charType": "Robot",
+  "locationType": "Hull",
+  "sliders": [
+    53,
+    47,
+    0,
+    100,
+    0
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "creationName": "Steve Rogers",
+  "creationInfo": "A young man who is not expected to live to thirty. Steve Rogers has a list of ailments longer than his body. Including asthma, heart murmurs, scarlet fever and pneumonia. Although this does not stop him from getting into back alley fights from which he is often saved by his best friend James 'bucky' Barnes.",
+  "charType": "Human",
+  "locationType": "Burnley",
+  "sliders": [
+    40,
+    10,
+    20,
+    10,
+    100
+  ]
+}
