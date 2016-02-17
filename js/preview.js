@@ -6,7 +6,10 @@ var Character = function(){
 	this.init = function(px, py, data){
 		this.px = px;
 		this.py = py;
+		this.incx = (randomGaussian()>0?-1:1) * 4 * data.sliders[2]/100;
+		this.incy = (randomGaussian()>0?-1:1) * 4 * data.sliders[2]/100;
 		this.thick = 3;
+		this.showInfo = false;
 		this.sliders = data.sliders;
 		this.charType = data.charType;
 		this.creationName = data.creationName;
@@ -22,6 +25,28 @@ var Character = function(){
 		}else{
 			this.drawRobotBody(this.px, this.py+50);
 		}
+		this.update();
+	};
+	this.update = function(){
+		this.px += this.incx;
+		if(this.px > width){
+			this.px = width;
+			this.incx = -this.incx;
+		}
+		if(this.px < 0 ){
+			this.px = 0;
+			this.incx = -this.incx;
+		}
+		
+//		this.py += this.incy;
+//		if(this.py > height){
+//			this.py = height;
+//			this.incy = -this.incy;
+//		}
+//		if(this.py < 0 ){
+//			this.py = 0;
+//			this.incy = -this.incy;
+//		}
 	};
 	this.drawRobotBody = function(px, py){	
 		push();
@@ -32,7 +57,7 @@ var Character = function(){
 			this.drawRobotHead(0,-25, 0.5 + this.sliders[0]/100.0);
 			this.drawRobotLeftArm(20,0, 0.5 + this.sliders[1]/100.0);
 			this.drawRobotRightArm(-20,0, 0.5 + this.sliders[1]/100.0);
-			this.drawInfo(0, -60);
+			this.drawName(0, -60);
 
 
 		pop();
@@ -47,27 +72,43 @@ var Character = function(){
 			this.drawRightArm(-14,0, 1 + this.sliders[1]/100.0);
 			this.drawRightLeg(-12,50, 0.5 + this.sliders[2]/100.0);
 			this.drawLeftLeg(12,50, 0.5 + this.sliders[2]/100.0);
-			this.drawInfo(0, -60);
+			this.drawName(0, -70);
 		pop();
+		if(this.showInfo){
+			this.drawInfo(width/2, height/2);
+		}
 	};
 	this.drawInfo = function(px,py){
 		push();
-			translate(px,py);
+			translate(px-400/2,py-400/2);
 			textFont('Helvetica');
-			fill(255,100);
-			rect(-10,-20,150,100,10);
+			fill(255,200);
+			rect(-20,-20, 400, 400, 10);
 			fill(0,0,0);
-			textSize(20);
+			textSize(25);
 			textStyle(BOLD);
-			text(this.creationName, 0, 0);
+			text(this.creationName, 0, 20);
+			
+			textSize(20);
 			textStyle(NORMAL);
 
-			textSize(15);
-
-			text(this.creationInfo, 0, 0,100,100);
-
+			text(this.locationType, 0, 50);
+			text(this.charType, 0, 80);
+			text(this.creationInfo, 0, 110, 400-40,300);
 		pop();
-		
+	};
+	this.drawName = function(px,py){
+		push();
+			translate(px,py);
+			textFont('Helvetica');
+			textSize(20);
+
+			fill(255,150);
+			rect(-20,-20, textWidth(this.creationName) + 40, 30,10);
+			fill(0,0,0);
+			textStyle(BOLD);
+			text(this.creationName, 0, 0);
+		pop();
 	};
 	this.drawRobotHead = function(px, py, s){
 		push();
