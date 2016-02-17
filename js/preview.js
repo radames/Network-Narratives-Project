@@ -2,12 +2,13 @@
 
 var Character = function(){
 	this.sliders = [];
+	this.lastTime = 0;
 	
 	this.init = function(px, py, data){
 		this.px = px;
 		this.py = py;
-		this.incx = (randomGaussian()>0?-1:1) * 4 * data.sliders[2]/100;
-		this.incy = (randomGaussian()>0?-1:1) * 4 * data.sliders[2]/100;
+		this.incx = (randomGaussian()>0?-1:1) * 3 * data.sliders[2]/100;
+		this.incy = (randomGaussian()>0?-1:1) * 3 * data.sliders[2]/100;
 		this.thick = 3;
 		this.showInfo = false;
 		this.sliders = data.sliders;
@@ -26,6 +27,17 @@ var Character = function(){
 			this.drawRobotBody(this.px, this.py+50);
 		}
 		this.update();
+		
+		if(this.showInfo && (millis() - this.lastTime) < 10000){
+			this.drawInfo(width/2, height/2);
+		}else{
+			this.showInfo = false;
+		}
+	};
+	this.toggleInfo = function(){
+		this.showInfo = !this.showInfo;
+		this.lastTime = millis();
+		
 	};
 	this.update = function(){
 		this.px += this.incx;
@@ -74,27 +86,24 @@ var Character = function(){
 			this.drawLeftLeg(12,50, 0.5 + this.sliders[2]/100.0);
 			this.drawName(0, -70);
 		pop();
-		if(this.showInfo){
-			this.drawInfo(width/2, height/2);
-		}
 	};
 	this.drawInfo = function(px,py){
 		push();
 			translate(px-400/2,py-400/2);
 			textFont('Helvetica');
 			fill(255,200);
-			rect(-20,-20, 400, 400, 10);
+			rect(-20,-20, 400, 500, 10);
 			fill(0,0,0);
 			textSize(25);
 			textStyle(BOLD);
 			text(this.creationName, 0, 20);
-			
+
 			textSize(20);
 			textStyle(NORMAL);
 
-			text(this.locationType, 0, 50);
-			text(this.charType, 0, 80);
-			text(this.creationInfo, 0, 110, 400-40,300);
+			text('type: ' + this.charType, 0, 50);
+			text('from: ' + this.locationType, 0, 80);
+			text(this.creationInfo, 0, 110, 400-40,400);
 		pop();
 	};
 	this.drawName = function(px,py){
@@ -385,6 +394,15 @@ function setup() {
 	}
 }
 
+function mouseClicked() {
+	character.forEach(function(c){
+			if(dist(mouseX, mouseY, c.px, c.py) < 50){
+				c.toggleInfo();
+				//$('#infoModal').modal();
+
+			}
+	});
+}
 
 function dropFiles(file) {
 	

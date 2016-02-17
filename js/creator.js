@@ -52,24 +52,23 @@ var GUI = function() {
 		this.creationInfo.style('resize:none;');
 		this.creationInfo.attribute('cols', '28');
 		this.creationInfo.attribute('rows', '7');
-		this.creationInfo.attribute('maxlength','70');
 
 		this.creationInfo.style('width:250px');
 		this.creationInfo.addClass('form-control GUI');
 
-		this.buttonRun = createButton('Run');
+		//this.buttonRun = createButton('Run');
 
-		this.buttonRun.position(this.x - 40, this.y + 500);
+		//this.buttonRun.position(this.x - 40, this.y + 500);
 
 		this.buttonCreate = createButton('Create');
 		this.buttonCreate.position(this.x + 140, this.y + 500);
 		this.buttonCreate.addClass('btn btn-default GUI');
 		
  		this.buttonCreate.mousePressed(this.createFunction);
-		this.buttonRun.mousePressed(this.runFunction);
-		this.buttonRun.attribute('id','runBtn');
-		this.buttonRun.addClass('btn btn-default GUI');
-
+		//this.buttonRun.mousePressed(this.runFunction);
+		//this.buttonRun.attribute('id','runBtn');
+		//this.buttonRun.addClass('btn btn-default GUI');
+		
 		
 		this.sliders = [];
 		this.icons = [];
@@ -145,15 +144,15 @@ var GUI = function() {
 	this.getState = function(){
 		return this.state;
 	};
-	this.runFunction = function(){
-		if(!that.running){
-			that.running = true;
-			that.buttonRun.html('Running');
-		}else{
-			that.running = false;
-			that.buttonRun.html('Run');
-		}
-	};
+//	this.runFunction = function(){
+//		if(!that.running){
+//			that.running = true;
+//			that.buttonRun.html('Running');
+//		}else{
+//			that.running = false;
+//			that.buttonRun.html('Run');
+//		}
+//	};
 	this.getType = function(){
 		return this.selType.value();
 	};
