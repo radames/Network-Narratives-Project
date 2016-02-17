@@ -12,7 +12,7 @@ var GUI = function() {
 		this.x = x;
 		this.y = y;
 		
-		this.logo = loadImage('imgs/logo.svg');
+		this.logo = loadImage('../imgs/logo.svg');
 		this.selType = createSelect();
 		this.locationType = createSelect();
 
@@ -52,6 +52,8 @@ var GUI = function() {
 		this.creationInfo.style('resize:none;');
 		this.creationInfo.attribute('cols', '28');
 		this.creationInfo.attribute('rows', '7');
+		this.creationInfo.attribute('maxlength','70');
+
 		this.creationInfo.style('width:250px');
 		this.creationInfo.addClass('form-control GUI');
 
@@ -84,7 +86,7 @@ var GUI = function() {
 			this.sliders[i].changed(this.slideChange);
 			this.sliders[i].attribute('name', 'sld-' + i);
 			this.sliders[i].style('width:130px');
-			this.icons[i] = loadImage('imgs/' + this.labels[i] + '.svg');
+			this.icons[i] = loadImage('../imgs/' + this.labels[i] + '.svg');
 		}
 		for(i = 0; i < this.nParam; i++){
 			this.sliders[i].elt.dispatchEvent(new Event('change'));
@@ -127,7 +129,7 @@ var GUI = function() {
 		$('#thanksModal').modal();
 		
 		that.json.creationName = that.creationName.value().trim();
-		that.json.creationInfo = that.creationInfo.value().trim();
+		that.json.creationInfo = that.creationInfo.value().trim().replace(/\n/g, '');
 		that.json.charType = that.selType.value();
 		that.json.locationType = that.locationType.value();
 		that.json.sliders = [];
@@ -156,7 +158,11 @@ var GUI = function() {
 		return this.selType.value();
 	};
  	this.getSliders = function(){
-		return this.sliders;
+		var s = [];
+		for(var i = 0; i < that.nParam; i++){
+			s.push(this.sliders[i].value());
+		}
+		return s;
 	};
 	this.draw = function(){
 		push();
@@ -224,11 +230,11 @@ var Character = function(){
 			translate(px,py);
 			scale(1.5);
 			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
-			this.drawRobotBase(0,40, 0.5 + sliders[2].value()/100.0);
-			this.drawRobotTorso(0,0, 0.5 + sliders[4].value()/500.0);
-			this.drawRobotHead(0,-25, 0.5 + sliders[0].value()/100.0);
-			this.drawRobotLeftArm(20,0, 0.5 + sliders[1].value()/100.0);
-			this.drawRobotRightArm(-20,0, 0.5 + sliders[1].value()/100.0);
+			this.drawRobotBase(0,40, 0.5 + sliders[2]/100.0);
+			this.drawRobotTorso(0,0, 0.5 + sliders[4]/500.0);
+			this.drawRobotHead(0,-25, 0.5 + sliders[0]/100.0);
+			this.drawRobotLeftArm(20,0, 0.5 + sliders[1]/100.0);
+			this.drawRobotRightArm(-20,0, 0.5 + sliders[1]/100.0);
 
 
 		pop();
@@ -238,12 +244,12 @@ var Character = function(){
 			translate(px,py);
 			scale(1.5);
 			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
-			this.drawTorso(0,20, 0.5 + sliders[4].value()/200.0);
-			this.drawHead(0,-25, 1 + sliders[0].value()/100.0);
-			this.drawLeftArm(14,0, 1 + sliders[1].value()/100.0);
-			this.drawRightArm(-14,0, 1 + sliders[1].value()/100.0);
-			this.drawRightLeg(-12,50, 0.5 + sliders[2].value()/100.0);
-			this.drawLeftLeg(12,50, 0.5 + sliders[2].value()/100.0);
+			this.drawTorso(0,20, 0.5 + sliders[4]/200.0);
+			this.drawHead(0,-25, 1 + sliders[0]/100.0);
+			this.drawLeftArm(14,0, 1 + sliders[1]/100.0);
+			this.drawRightArm(-14,0, 1 + sliders[1]/100.0);
+			this.drawRightLeg(-12,50, 0.5 + sliders[2]/100.0);
+			this.drawLeftLeg(12,50, 0.5 + sliders[2]/100.0);
 
 
 		pop();
@@ -503,8 +509,8 @@ function setup() {
 	character.init(width/2, height - 300);
 	
 
-	backImg = loadImage('imgs/Biobackground2.jpg');
-	backImgFinal = loadImage('imgs/Biobackground.jpg');
+	backImg = loadImage('../imgs/Biobackground2.jpg');
+	backImgFinal = loadImage('../imgs/Biobackground.jpg');
 	state = 'init';
 	
 }
@@ -515,7 +521,6 @@ function setup() {
 	if(state === 'init'){
 		image(backImg,0,0);
 		character.draw(gui.getSliders(), gui.getType());
-		//robot.setX(mouseX);
 		gui.draw();
 		state = gui.getState();
 	
