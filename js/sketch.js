@@ -6,7 +6,8 @@ var GUI = function() {
 	this.running = false;
 	
 	this.state = 'init';
-
+	this.json = {};
+	
 	this.init = function(x,y){
 		this.x = x;
 		this.y = y;
@@ -124,21 +125,20 @@ var GUI = function() {
 		}
 		that.state = 'saved';
 		$('#thanksModal').modal();
+		
+		that.json.creationName = that.creationName.value().trim();
+		that.json.creationInfo = that.creationInfo.value().trim();
+		that.json.charType = that.selType.value();
+		that.json.locationType = that.locationType.value();
+		that.json.sliders = [];
+		for(var i = 0; i < that.nParam; i++){
+			that.json.sliders.push(that.sliders[i].value());
+		}
+		console.log(that.json);
 	};
 	this.saveJSON = function(){
-		var json = {};
-		
-		json.creationName = that.creationName.value();
-		json.creationInfo = that.creationInfo.value();
-		json.charType = that.selType.value();
-		json.locationType = that.locationType.value();
-		json.sliders = [];
-		for(var i = 0; i < that.nParam; i++){
-			json.sliders.push(that.sliders[i].value());
-		}
-		console.log(json);
-		saveJSONObject(json, json.creationName + '.json');
-
+		saveJSONObject(that.json, that.json.creationName + '.json');
+		that.json = {};
 	};
 	this.getState = function(){
 		return this.state;
