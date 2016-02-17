@@ -4,6 +4,9 @@ var GUI = function() {
 	var that = this;
 	this.nParam = 5;
 	this.running = false;
+	
+	this.state = 'init';
+
 	this.init = function(x,y){
 		this.x = x;
 		this.y = y;
@@ -14,8 +17,8 @@ var GUI = function() {
 
 		this.label1 = createSpan('&nbsp;I want to build a&nbsp;');
 		this.label2 = createSpan('&nbsp;It lives in&nbsp;');
-		this.label1.addClass('h4');
-		this.label2.addClass('h4');
+		this.label1.addClass('h4 GUI');
+		this.label2.addClass('h4 GUI');
 
 		this.label1.position(this.x - 40, this.y + 200);
 		this.label2.position(this.x - 40, this.y + 230);
@@ -24,13 +27,14 @@ var GUI = function() {
 		this.locationType.position(this.x + 110, this.y + 240);
 		this.selType.option('Human');
 		this.selType.option('Robot');
-		this.selType.addClass('form-control');
+		this.selType.addClass('form-control GUI');
 		this.selType.style('width:100px');
+		this.selType.value(randomGaussian()>0?'Human':'Robot');
 
 		this.locationType.option('Burnley');
 		this.locationType.option('Hull');
 		this.locationType.option('Wigan');
-		this.locationType.addClass('form-control');
+		this.locationType.addClass('form-control GUI');
 		this.locationType.style('width:100px');
 
 		this.creationName = createInput('');
@@ -38,8 +42,8 @@ var GUI = function() {
 		this.creationName.attribute('size', '40');
 		this.creationName.attribute('maxlength','30');
 		this.creationName.attribute('placeholder', 'The name of my creations is');
-		this.creationName.style('width:250px');
-		this.creationName.addClass('form-control');
+		this.creationName.style('width:250px'); 
+		this.creationName.addClass('form-control GUI');
 
 		this.creationInfo = createElement('textarea');
 		this.creationInfo.position(this.x - 40, this.y + 320);
@@ -48,7 +52,7 @@ var GUI = function() {
 		this.creationInfo.attribute('cols', '28');
 		this.creationInfo.attribute('rows', '7');
 		this.creationInfo.style('width:250px');
-		this.creationInfo.addClass('form-control');
+		this.creationInfo.addClass('form-control GUI');
 
 		this.buttonRun = createButton('Run');
 
@@ -56,12 +60,12 @@ var GUI = function() {
 
 		this.buttonCreate = createButton('Create');
 		this.buttonCreate.position(this.x + 140, this.y + 500);
-		this.buttonCreate.addClass('btn btn-default');
+		this.buttonCreate.addClass('btn btn-default GUI');
 		
- 		this.buttonCreate.mousePressed(this.saveFn);
-		this.buttonRun.mousePressed(this.runFn);
+ 		this.buttonCreate.mousePressed(this.createFunction);
+		this.buttonRun.mousePressed(this.runFunction);
 		this.buttonRun.attribute('id','runBtn');
-		this.buttonRun.addClass('btn btn-default');
+		this.buttonRun.addClass('btn btn-default GUI');
 
 		
 		this.sliders = [];
@@ -72,9 +76,9 @@ var GUI = function() {
 			this.sliders[i] = createSlider(0, 100,random(100));
 			this.htmlLables[i] = createSpan(this.labels[i]);
 			this.htmlLables[i].position(this.x + 135, this.y + 40*i);
-			this.htmlLables[i].addClass('h4');
+			this.htmlLables[i].addClass('h4 GUI');
 			
-			this.sliders[i].addClass('form-control');
+			this.sliders[i].addClass('form-control GUI');
 			this.sliders[i].position(this.x, this.y + 40*i);
 			this.sliders[i].changed(this.slideChange);
 			this.sliders[i].attribute('name', 'sld-' + i);
@@ -84,17 +88,62 @@ var GUI = function() {
 		for(i = 0; i < this.nParam; i++){
 			this.sliders[i].elt.dispatchEvent(new Event('change'));
 		}
-		
+		$('#saveBTN').on('click', function (e) {
+			that.saveJSON();
+		});
 	};
-	this.saveFn = function(){
-		this.json = {};
+	this.reset = function (){
+		this.state = 'init';
+		this.selType.value(randomGaussian()>0?'Human':'Robot');
+		this.creationInfo.value('');
+		this.creationName.value('');
 
-		if(that.creationInfo.value() === '' || that.creationName.value() === ''){
-			$('#errorFormModal').modal();
-			console.log('Please add the name and the info about your creation');
+		for(var i = 0; i < this.nParam; i++){
+			this.sliders[i].elt.value = random(100);
+		}
+		for(i = 0; i < this.nParam; i++){
+			this.sliders[i].elt.dispatchEvent(new Event('change'));
 		}
 	};
-	this.runFn = function(){
+	this.hideAll = function (){
+		var elts = selectAll('.GUI');
+		elts.forEach(function(e){
+			e.hide();	
+		});
+	};
+	this.showAll = function (){
+		var elts = selectAll('.GUI');
+		elts.forEach(function(e){
+			e.show();	
+		});
+	};
+	this.createFunction = function(){
+		if(that.creationInfo.value() === '' || that.creationName.value() === ''){
+			$('#errorFormModal').modal();
+			return 0;
+		}
+		that.state = 'saved';
+		$('#thanksModal').modal();
+	};
+	this.saveJSON = function(){
+		var json = {};
+		
+		json.creationName = that.creationName.value();
+		json.creationInfo = that.creationInfo.value();
+		json.charType = that.selType.value();
+		json.locationType = that.locationType.value();
+		json.sliders = [];
+		for(var i = 0; i < that.nParam; i++){
+			json.sliders.push(that.sliders[i].value());
+		}
+		console.log(json);
+		saveJSONObject(json, json.creationName + '.json');
+
+	};
+	this.getState = function(){
+		return this.state;
+	};
+	this.runFunction = function(){
 		if(!that.running){
 			that.running = true;
 			that.buttonRun.html('Running');
@@ -173,6 +222,7 @@ var Character = function(){
 	this.drawRobotBody = function(px, py, sliders){	
 		push();
 			translate(px,py);
+			scale(1.5);
 			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
 			this.drawRobotBase(0,40, 0.5 + sliders[2].value()/100.0);
 			this.drawRobotTorso(0,0, 0.5 + sliders[4].value()/500.0);
@@ -186,6 +236,7 @@ var Character = function(){
 	this.drawHumanBody = function(px, py, sliders){	
 		push();
 			translate(px,py);
+			scale(1.5);
 			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
 			this.drawTorso(0,20, 0.5 + sliders[4].value()/200.0);
 			this.drawHead(0,-25, 1 + sliders[0].value()/100.0);
@@ -436,6 +487,8 @@ var Character = function(){
 var gui;
 var character;
 var backImg;
+var backImgFinal;
+var state;
 
 function setup() {
 	// create canvas
@@ -447,18 +500,41 @@ function setup() {
 	gui.init(70,40);
 	
 	character = new Character();
-	character.init(width/2, height - 200);
+	character.init(width/2, height - 300);
 	
 
 	backImg = loadImage('imgs/Biobackground2.jpg');
+	backImgFinal = loadImage('imgs/Biobackground.jpg');
+	state = 'init';
+	
 }
   
  function draw() {
 	  
 	background(255);
-	image(backImg,0,0);
-	character.draw(gui.getSliders(), gui.getType());
-	//robot.setX(mouseX);
-	gui.draw();
+	if(state === 'init'){
+		image(backImg,0,0);
+		character.draw(gui.getSliders(), gui.getType());
+		//robot.setX(mouseX);
+		gui.draw();
+		state = gui.getState();
+	
+	}else if(state === 'saved'){
+		
+		gui.hideAll();
+		state = 'idle';
+		setTimeout(restartGUI, 5000);
 
+
+	}else if(state === 'idle'){
+		image(backImgFinal,0,0);
+		character.draw(gui.getSliders(), gui.getType());
+
+	}
+}
+
+function restartGUI() {
+	gui.reset();
+	gui.showAll();
+	state = 'init';
 }

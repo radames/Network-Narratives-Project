@@ -16,6 +16,7 @@
   "unused": false,
   "globals": {
 	"$": false,
+	"selectAll": true,
 	"createSelect": true,
 	"createSpan":true,
 	"createElement":true,
