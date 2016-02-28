@@ -375,13 +375,15 @@ function setup() {
   
  function draw() {
 	  
-	background(255);
+	background(0);
 	if(state === 'init'){
-		image(backgroundImg,0,0);
+		var backHeight = backgroundImg.height*(windowWidth/ backgroundImg.width);
+		image(backgroundImg,0,0, windowWidth, backHeight);
 		character.forEach(function(c){
 			c.draw();
 		});
-		image(foregroundImg,0, backgroundImg.height-foregroundImg.height);
+		var foreHeight = 0.3514660494*foregroundImg.height*(windowWidth/foregroundImg.width); //magic number is the width relation between the orignal back and foreground images
+		image(foregroundImg,0, backHeight - foreHeight , windowWidth*0.3514660494, foreHeight );
 
 	
 	}else if(state === 'saved'){
@@ -412,4 +414,8 @@ function dropFiles(file) {
 		newChar.init(random(width), random(250,height-250) ,data);
 		character.push(newChar);
 	}
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
