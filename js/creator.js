@@ -20,6 +20,8 @@ var GUI = function() {
 		this.label2 = createSpan('&nbsp;It lives in&nbsp;');
 		this.label1.addClass('h4 GUI');
 		this.label2.addClass('h4 GUI');
+		this.label1.style('background-color:white');
+		this.label2.style('background-color:white');
 
 		this.label1.position(this.x - 40, this.y + 200);
 		this.label2.position(this.x - 40, this.y + 230);
@@ -79,6 +81,7 @@ var GUI = function() {
 			this.htmlLables[i] = createSpan(this.labels[i]);
 			this.htmlLables[i].position(this.x + 135, this.y + 40*i);
 			this.htmlLables[i].addClass('h4 GUI');
+			this.htmlLables[i].style('background-color:white');
 			
 			this.sliders[i].addClass('form-control GUI');
 			this.sliders[i].position(this.x, this.y + 40*i);
@@ -171,11 +174,15 @@ var GUI = function() {
 				push();
 					translate(this.x-30, this.y + 45 * i);
 					scale(0.2+this.sliders[i].value()/300);
+					fill(255);
+					rectMode(CENTER);
+					rect(0,0,this.icons[i].width+10, this.icons[i].height+10);
 					image(this.icons[i], 0, 0);
+
 				pop();
 			}
 			push();
-				translate(width-60, 60);
+				translate(windowWidth-60, 60);
 				scale(0.33);
 				image(this.logo, 0,0 );
 			pop();
@@ -228,7 +235,7 @@ var Character = function(){
 		push();
 			translate(px,py);
 			scale(1.5);
-			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
+			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2)/50);
 			this.drawRobotBase(0,40, 0.5 + sliders[2]/100.0);
 			this.drawRobotTorso(0,0, 0.5 + sliders[4]/500.0);
 			this.drawRobotHead(0,-25, 0.5 + sliders[0]/100.0);
@@ -242,7 +249,7 @@ var Character = function(){
 		push();
 			translate(px,py);
 			scale(1.5);
-			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
+			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2)/50);
 			this.drawTorso(0,20, 0.5 + sliders[4]/200.0);
 			this.drawHead(0,-25, 1 + sliders[0]/100.0);
 			this.drawLeftArm(14,0, 1 + sliders[1]/100.0);
@@ -275,7 +282,7 @@ var Character = function(){
 			strokeWeight(this.thick);
 
 			translate(px,py);
-			rotate(atan2(mouseY-height/2, mouseX-width/2));
+			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 			stroke(0);
 			push();
 				translate(-10*s/2,0);
@@ -302,7 +309,7 @@ var Character = function(){
 			strokeWeight(this.thick);
 
 			translate(px,py);
-			rotate(-atan2(mouseY-height/2, mouseX-width/2));
+			rotate(-atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 			stroke(0);
 			push();
 				translate(-10*s/2,0);
@@ -392,7 +399,7 @@ var Character = function(){
 		push();
 			strokeWeight(this.thick);
 			translate(px,py);
-			rotate(atan2(mouseY-height/2, mouseX-width/2));
+			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 			stroke(0);
 			push();
 				rotate(PI/2);
@@ -403,7 +410,7 @@ var Character = function(){
 			ellipse(0,40, 10,10);
 			push();
 				translate(0,40);
-				rotate(atan2(mouseY-height/2, mouseX-width/2));
+				rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 				push();
 					rotate(PI/2);
 					ellipseMode(CORNER);
@@ -416,7 +423,7 @@ var Character = function(){
 		push();
 			strokeWeight(this.thick);
 			translate(px,py);
-			rotate(-atan2(mouseY-height/2, mouseX-width/2));
+			rotate(-atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 			stroke(0);
 			push();
 				rotate(PI/2);
@@ -427,7 +434,7 @@ var Character = function(){
 			ellipse(0,40, 10,10);
 			push();
 				translate(0,40);
-				rotate(-atan2(mouseY-height/2, mouseX-width/2));
+				rotate(-atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 				push();
 					rotate(PI/2);
 					ellipseMode(CORNER);
@@ -505,7 +512,7 @@ function setup() {
 	gui.init(70,40);
 	
 	character = new Character();
-	character.init(width/2, height - 300);
+	character.init(windowWidth/2, windowHeight - 300);
 	
 
 	backImg = loadImage('../imgs/Biobackground2.jpg');
@@ -531,7 +538,7 @@ function setup() {
 
 
 	}else if(state === 'idle'){
-		image(backImgFinal,0,0, backImgFinal, backImgFinal.height*(windowWidth/backImgFinal.width));
+		image(backImgFinal,0,0, windowWidth, backImgFinal.height*(windowWidth/backImgFinal.width));
 		character.draw(gui.getSliders(), gui.getType());
 
 	}
@@ -541,4 +548,8 @@ function restartGUI() {
 	gui.reset();
 	gui.showAll();
 	state = 'init';
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
