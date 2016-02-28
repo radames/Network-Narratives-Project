@@ -20,16 +20,16 @@ var Character = function(){
 	this.setX = function(px){
 		this.px = px;	
 	};
-	this.draw = function(){
+	this.draw = function(scale){
 		if(this.charType === 'Human'){
-			this.drawHumanBody(this.px, this.py);
+			this.drawHumanBody(this.px, this.py, scale);
 		}else{
-			this.drawRobotBody(this.px, this.py+50);
+			this.drawRobotBody(this.px, this.py+50, scale);
 		}
 		this.update();
 		
 		if(this.showInfo && (millis() - this.lastTime) < 10000){
-			this.drawInfo(width/2, height/2);
+			this.drawInfo(windowWidth/2, windowHeight/2);
 		}else{
 			this.showInfo = false;
 		}
@@ -41,8 +41,8 @@ var Character = function(){
 	};
 	this.update = function(){
 		this.px += this.incx;
-		if(this.px > width){
-			this.px = width;
+		if(this.px > windowWidth){
+			this.px = windowWidth;
 			this.incx = -this.incx;
 		}
 		if(this.px < 0 ){
@@ -51,8 +51,8 @@ var Character = function(){
 		}
 		
 //		this.py += this.incy;
-//		if(this.py > height){
-//			this.py = height;
+//		if(this.py > windowHeight){
+//			this.py = windowHeight;
 //			this.incy = -this.incy;
 //		}
 //		if(this.py < 0 ){
@@ -60,10 +60,11 @@ var Character = function(){
 //			this.incy = -this.incy;
 //		}
 	};
-	this.drawRobotBody = function(px, py){	
+	this.drawRobotBody = function(px, py, s){	
 		push();
 			translate(px,py);
-			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
+			scale(s);
+			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2)/50);
 			this.drawRobotBase(0,40, 0.5 + this.sliders[2]/100.0);
 			this.drawRobotTorso(0,0, 0.5 + this.sliders[4]/500.0);
 			this.drawRobotHead(0,-25, 0.5 + this.sliders[0]/100.0);
@@ -74,10 +75,11 @@ var Character = function(){
 
 		pop();
 	};
-	this.drawHumanBody = function(px, py){	
+	this.drawHumanBody = function(px, py, s){	
 		push();
 			translate(px,py);
-			rotate(atan2(mouseY-height/2, mouseX-width/2)/50);
+			scale(s);
+			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2)/50);
 			this.drawTorso(0,20, 0.5 + this.sliders[4]/200.0);
 			this.drawHead(0,-25, 1 + this.sliders[0]/100.0);
 			this.drawLeftArm(14,0, 1 + this.sliders[1]/100.0);
@@ -141,7 +143,7 @@ var Character = function(){
 			strokeWeight(this.thick);
 
 			translate(px,py);
-			rotate(atan2(mouseY-height/2, mouseX-width/2));
+			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 			stroke(0);
 			push();
 				translate(-10*s/2,0);
@@ -168,7 +170,7 @@ var Character = function(){
 			strokeWeight(this.thick);
 
 			translate(px,py);
-			rotate(-atan2(mouseY-height/2, mouseX-width/2));
+			rotate(-atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 			stroke(0);
 			push();
 				translate(-10*s/2,0);
@@ -258,7 +260,7 @@ var Character = function(){
 		push();
 			strokeWeight(this.thick);
 			translate(px,py);
-			rotate(atan2(mouseY-height/2, mouseX-width/2));
+			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 			stroke(0);
 			push();
 				rotate(PI/2);
@@ -269,7 +271,7 @@ var Character = function(){
 			ellipse(0,40, 10,10);
 			push();
 				translate(0,40);
-				rotate(atan2(mouseY-height/2, mouseX-width/2));
+				rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 				push();
 					rotate(PI/2);
 					ellipseMode(CORNER);
@@ -282,7 +284,7 @@ var Character = function(){
 		push();
 			strokeWeight(this.thick);
 			translate(px,py);
-			rotate(-atan2(mouseY-height/2, mouseX-width/2));
+			rotate(-atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 			stroke(0);
 			push();
 				rotate(PI/2);
@@ -293,7 +295,7 @@ var Character = function(){
 			ellipse(0,40, 10,10);
 			push();
 				translate(0,40);
-				rotate(-atan2(mouseY-height/2, mouseX-width/2));
+				rotate(-atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
 				push();
 					rotate(PI/2);
 					ellipseMode(CORNER);
@@ -379,12 +381,13 @@ function setup() {
 	if(state === 'init'){
 		var backHeight = backgroundImg.height*(windowWidth/ backgroundImg.width);
 		image(backgroundImg,0,0, windowWidth, backHeight);
-		character.forEach(function(c){
-			c.draw();
-		});
-		var foreHeight = 0.3514660494*foregroundImg.height*(windowWidth/foregroundImg.width); //magic number is the width relation between the orignal back and foreground images
-		image(foregroundImg,0, backHeight - foreHeight , windowWidth*0.3514660494, foreHeight );
 
+		character.forEach(function(c){
+			c.draw(2*windowWidth/ backgroundImg.width);
+		});
+
+		var foreHeight = 0.3514660494*foregroundImg.height*(windowWidth/foregroundImg.width); //magic number is the width relation between the orignal back and foreground images
+		image(foregroundImg,0, backHeight - foreHeight , windowWidth*0.3514660494, foreHeight);
 	
 	}else if(state === 'saved'){
 		
@@ -401,7 +404,6 @@ function mouseClicked() {
 			if(dist(mouseX, mouseY, c.px, c.py) < 50){
 				c.toggleInfo();
 				//$('#infoModal').modal();
-
 			}
 	});
 }
@@ -411,7 +413,7 @@ function dropFiles(file) {
 	if(file.subtype  === 'json'){
 		var data = JSON.parse(atob(file.data.split(',')[1]));
 		var newChar = new Character();
-		newChar.init(random(width), random(250,height-250) ,data);
+		newChar.init(random(windowWidth), random(250,windowHeight-250) ,data);
 		character.push(newChar);
 	}
 }
