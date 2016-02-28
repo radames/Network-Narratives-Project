@@ -7,8 +7,8 @@ var Character = function(){
 	this.init = function(px, py, data){
 		this.px = px;
 		this.py = py;
-		this.incx = (randomGaussian()>0?-1:1) * 3 * data.sliders[2]/100;
-		this.incy = (randomGaussian()>0?-1:1) * 3 * data.sliders[2]/100;
+		this.incx = (randomGaussian()>0?-1:1) * 2 * data.sliders[2]/100;
+		this.incy = (randomGaussian()>0?-1:1) * 2 * data.sliders[2]/100;
 		this.thick = 3;
 		this.showInfo = false;
 		this.sliders = data.sliders;
@@ -16,6 +16,11 @@ var Character = function(){
 		this.creationName = data.creationName;
 		this.creationInfo = data.creationInfo;
 		this.locationType = data.locationType;
+		this.labelName  = createSpan(this.creationName);
+		//this.labelName.addClass('h5');
+		this.labelName.style('font-weight: bold;background-color:white;white-space: nowrap;border-radius: 10px 10px 10px 10px;padding:5px;');
+
+		
 	};
 	this.setX = function(px){
 		this.px = px;	
@@ -73,10 +78,9 @@ var Character = function(){
 			this.drawRobotHead(0,-25, 0.5 + this.sliders[0]/100.0);
 			this.drawRobotLeftArm(20,0, 0.5 + this.sliders[1]/100.0);
 			this.drawRobotRightArm(-20,0, 0.5 + this.sliders[1]/100.0);
-			this.drawName(0, -60);
-
-
 		pop();
+		this.drawName(px, py, s);
+
 	};
 	this.drawHumanBody = function(px, py, s){	
 		push();
@@ -89,8 +93,9 @@ var Character = function(){
 			this.drawRightArm(-14,0, 1 + this.sliders[1]/100.0);
 			this.drawRightLeg(-12,50, 0.5 + this.sliders[2]/100.0);
 			this.drawLeftLeg(12,50, 0.5 + this.sliders[2]/100.0);
-			this.drawName(0, -70);
 		pop();
+			this.drawName(px, py, s);
+
 	};
 	this.drawInfo = function(px,py){
 		push();
@@ -111,18 +116,9 @@ var Character = function(){
 			text(this.creationInfo, 0, 110, 400-40,400);
 		pop();
 	};
-	this.drawName = function(px,py){
-		push();
-			translate(px,py);
-			textFont('Helvetica');
-			textSize(20);
-
-			fill(255,150);
-			rect(-20,-20, textWidth(this.creationName) + 40, 30,10);
-			fill(0,0,0);
-			textStyle(BOLD);
-			text(this.creationName, 0, 0);
-		pop();
+	this.drawName = function(px,py,s){
+		this.labelName.style("font-size", (5+s*9) + 'px');
+		this.labelName.position(px,py+s*100);	
 	};
 	this.drawRobotHead = function(px, py, s){
 		push();
