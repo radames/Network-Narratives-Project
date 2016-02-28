@@ -363,36 +363,40 @@ var Character = function(){
 var character = [];
 var backgroundImg;
 var foregroundImg;
+var logo;
+
 var state;
 
 function setup() {
 	// create canvas
-	var c = createCanvas(1024, 768);
+	var c = createCanvas(windowWidth, windowHeight);
 	textSize(15);
 	noStroke();
 	
 
 	foregroundImg = loadImage('../imgs/BasementbackgroundP1.png');
 	backgroundImg = loadImage('../imgs/BasementbackgroundP2.png');
+	logo = loadImage('../imgs/logo2.svg');
 	state = 'init';
 	c.drop(dropFiles);
 }
- var backHeight, foreHeight;
+ var backHeight;
 
  function draw() {
 	  
 	background(0);
 	if(state === 'init'){
-		backHeight = backgroundImg.height*(windowWidth/ backgroundImg.width);
-		image(backgroundImg,0,0, windowWidth, backHeight);
+		backHeight = backgroundImg.height * (windowWidth / backgroundImg.width);
+		
+		image(backgroundImg, 0, 0, windowWidth, backHeight);
 
 		character.forEach(function(c){
 			c.draw(2*windowWidth/ backgroundImg.width);
 		});
+		var foreHeight = 0.3514660494 * foregroundImg.height*(windowWidth/foregroundImg.width); //magic number is the width relation between the orignal back and foreground images
+		image(foregroundImg,0, backHeight - foreHeight, windowWidth*0.3514660494, foreHeight);
+		image(logo, windowWidth*(1-0.16), 15, 0.15 * windowWidth , 0.15 * logo.height *( windowWidth / logo.width));
 
-		foreHeight = 0.3514660494*foregroundImg.height*(windowWidth/foregroundImg.width); //magic number is the width relation between the orignal back and foreground images
-		image(foregroundImg,0, backHeight - foreHeight , windowWidth*0.3514660494, foreHeight);
-	
 	}else if(state === 'saved'){
 		
 		state = 'idle';
@@ -401,6 +405,8 @@ function setup() {
 		image(backgroundImg,0,0);
 		image(foregroundImg,0,100);
 	}
+	 
+
 }
 
 function mouseClicked() {
