@@ -20,6 +20,9 @@ var Character = function(){
 	this.setX = function(px){
 		this.px = px;	
 	};
+	this.setY = function(py){
+		this.py = py;	
+	};
 	this.draw = function(scale){
 		if(this.charType === 'Human'){
 			this.drawHumanBody(this.px, this.py, scale);
@@ -374,19 +377,20 @@ function setup() {
 	state = 'init';
 	c.drop(dropFiles);
 }
-  
+ var backHeight, foreHeight;
+
  function draw() {
 	  
 	background(0);
 	if(state === 'init'){
-		var backHeight = backgroundImg.height*(windowWidth/ backgroundImg.width);
+		backHeight = backgroundImg.height*(windowWidth/ backgroundImg.width);
 		image(backgroundImg,0,0, windowWidth, backHeight);
 
 		character.forEach(function(c){
 			c.draw(2*windowWidth/ backgroundImg.width);
 		});
 
-		var foreHeight = 0.3514660494*foregroundImg.height*(windowWidth/foregroundImg.width); //magic number is the width relation between the orignal back and foreground images
+		foreHeight = 0.3514660494*foregroundImg.height*(windowWidth/foregroundImg.width); //magic number is the width relation between the orignal back and foreground images
 		image(foregroundImg,0, backHeight - foreHeight , windowWidth*0.3514660494, foreHeight);
 	
 	}else if(state === 'saved'){
@@ -400,6 +404,7 @@ function setup() {
 }
 
 function mouseClicked() {
+	
 	character.forEach(function(c){
 			if(dist(mouseX, mouseY, c.px, c.py) < 50){
 				c.toggleInfo();
@@ -413,11 +418,22 @@ function dropFiles(file) {
 	if(file.subtype  === 'json'){
 		var data = JSON.parse(atob(file.data.split(',')[1]));
 		var newChar = new Character();
-		newChar.init(random(windowWidth), random(250,windowHeight-250) ,data);
+		newChar.init(random(windowWidth), random(250, backHeight - 250) ,data);
 		character.push(newChar);
 	}
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+	//respositioning afer window resized
+	character.forEach(function(c){
+			c.setY(random(250, backHeight - 250));
+	});
+	
+}
+function keyTyped(){
+	if(key == 'f'){
+		var fs = fullScreen();
+		fullScreen(!fs);		
+	}
 }
