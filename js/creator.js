@@ -497,7 +497,7 @@ var state;
 
 function setup() {
 	// create canvas
-	createCanvas(1024, 768);
+	createCanvas(windowWidth, windowHeight);
 	textSize(15);
 	noStroke();
 
@@ -518,7 +518,7 @@ function setup() {
 	  
 	background(255);
 	if(state === 'init'){
-		image(backImg,0,0);
+		image(backImg,0,0, windowWidth, backImg.height*(windowWidth/backImg.width));
 		character.draw(gui.getSliders(), gui.getType());
 		gui.draw();
 		state = gui.getState();
@@ -531,7 +531,7 @@ function setup() {
 
 
 	}else if(state === 'idle'){
-		image(backImgFinal,0,0);
+		image(backImgFinal,0,0, backImgFinal, backImgFinal.height*(windowWidth/backImgFinal.width));
 		character.draw(gui.getSliders(), gui.getType());
 
 	}

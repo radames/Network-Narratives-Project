@@ -375,7 +375,7 @@ function setup() {
 	
 
 	foregroundImg = loadImage('../imgs/BasementbackgroundP1.png');
-	backgroundImg = loadImage('../imgs/BasementbackgroundP2.png');
+	backgroundImg = loadImage('../imgs/BasementbackgroundP2.jpg');
 	logo = loadImage('../imgs/logo2.svg');
 	state = 'init';
 	c.drop(dropFiles);
