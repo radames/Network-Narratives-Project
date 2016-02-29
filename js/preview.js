@@ -392,24 +392,17 @@ function setup() {
 	backgroundImg.position(0,0);
 	foregroundImg.position(0, foregroundImg.height);
 
-	//foregroundImg = loadImage('../imgs/BasementbackgroundP1.png');
-	//backgroundImg = loadImage('../imgs/BasementbackgroundP2.jpg');
 	state = 'init';
 	c.drop(dropFiles);
 }
- var backHeight;
 
  function draw() {
   clear();
 	 if(state === 'init'){
-		backHeight = backgroundImg.height * (windowHeight / backgroundImg.height);
 		
-		//image(backgroundImg, 0, 0, windowWidth, backHeight);
 		character.forEach(function(c){
 			c.draw(backgroundImg.height/windowHeight );
 		});
-		var foreHeight = 0.3514660494 * foregroundImg.height*(windowWidth/foregroundImg.width); //magic number is the width relation between the orignal back and foreground images
-		//image(foregroundImg,0, backHeight - foreHeight, windowWidth*0.3514660494, foreHeight);
 		image(logo, windowWidth*(1-0.16), 15, 0.15 * windowWidth , 0.15 * logo.height *( windowWidth / logo.width));
 
 	}else if(state === 'saved'){
@@ -449,7 +442,7 @@ function windowResized() {
 	//respositioning afer window resized
 	backgroundImg.size(windowWidth, -1);
 	foregroundImg.size(0.3514660494*windowWidth,-1);
-
+	backgroundImg.position(0,0);
 	foregroundImg.position(0, foregroundImg.height);
 
 	character.forEach(function(c){
