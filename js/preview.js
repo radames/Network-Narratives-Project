@@ -3,7 +3,7 @@
 var Character = function(){
 	this.sliders = [];
 	this.lastTime = 0;
-	
+	var that = this;
 	this.init = function(px, py, data){
 		this.px = px;
 		this.py = py;
@@ -19,9 +19,14 @@ var Character = function(){
 		this.labelName  = createSpan(this.creationName);
 		//this.labelName.addClass('h5');
 		this.labelName.style('font-weight: bold;background-color:white;white-space: nowrap;border-radius: 10px 10px 10px 10px;padding:5px;');
+		this.labelName.mousePressed(this.labelClicked); // attach listener for
+
 
 		
 	};
+	this.labelClicked = function(e){
+		$('#infoModal').modal();
+	}
 	this.setX = function(px){
 		this.px = px;	
 	};
@@ -363,34 +368,48 @@ var logo;
 
 var state;
 
+function preload(){
+	backgroundImg = createImg('../imgs/BasementbackgroundP2.jpg');
+	foregroundImg = createImg('../imgs/BasementbackgroundP1.png');
+	logo = loadImage('../imgs/logo2.svg');
+
+}
+
 function setup() {
 	// create canvas
 	var c = createCanvas(windowWidth, windowHeight);
+	c.style('z-index: 0;');
 	textSize(15);
 	noStroke();
 	
+  //img = createImg('http://p5js.org/img/asterisk-01.png');
 
-	foregroundImg = loadImage('../imgs/BasementbackgroundP1.png');
-	backgroundImg = loadImage('../imgs/BasementbackgroundP2.jpg');
-	logo = loadImage('../imgs/logo2.svg');
+	backgroundImg.size(windowWidth, -1);
+	backgroundImg.style('z-index: -1;');
+	foregroundImg.style('z-index: 1;');
+	foregroundImg.size(0.3514660494*windowWidth,-1);
+
+	backgroundImg.position(0,0);
+	foregroundImg.position(0, foregroundImg.height);
+
+	//foregroundImg = loadImage('../imgs/BasementbackgroundP1.png');
+	//backgroundImg = loadImage('../imgs/BasementbackgroundP2.jpg');
 	state = 'init';
 	c.drop(dropFiles);
 }
  var backHeight;
 
  function draw() {
-	  
-	background(0);
-	if(state === 'init'){
-		backHeight = backgroundImg.height * (windowWidth / backgroundImg.width);
+  clear();
+	 if(state === 'init'){
+		backHeight = backgroundImg.height * (windowHeight / backgroundImg.height);
 		
-		image(backgroundImg, 0, 0, windowWidth, backHeight);
-
+		//image(backgroundImg, 0, 0, windowWidth, backHeight);
 		character.forEach(function(c){
-			c.draw(2*windowWidth/ backgroundImg.width);
+			c.draw(backgroundImg.height/windowHeight );
 		});
 		var foreHeight = 0.3514660494 * foregroundImg.height*(windowWidth/foregroundImg.width); //magic number is the width relation between the orignal back and foreground images
-		image(foregroundImg,0, backHeight - foreHeight, windowWidth*0.3514660494, foreHeight);
+		//image(foregroundImg,0, backHeight - foreHeight, windowWidth*0.3514660494, foreHeight);
 		image(logo, windowWidth*(1-0.16), 15, 0.15 * windowWidth , 0.15 * logo.height *( windowWidth / logo.width));
 
 	}else if(state === 'saved'){
@@ -398,8 +417,8 @@ function setup() {
 		state = 'idle';
 
 	}else if(state === 'idle'){
-		image(backgroundImg,0,0);
-		image(foregroundImg,0,100);
+		//image(backgroundImg,0,0);
+		//image(foregroundImg,0,100);
 	}
 	 
 
@@ -420,16 +439,21 @@ function dropFiles(file) {
 	if(file.subtype  === 'json'){
 		var data = JSON.parse(atob(file.data.split(',')[1]));
 		var newChar = new Character();
-		newChar.init(random(windowWidth), random(250, backHeight - 250) ,data);
+		newChar.init(random(windowWidth), random(250, backgroundImg.height - 250) ,data);
 		character.push(newChar);
 	}
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+	resizeCanvas(windowWidth, windowHeight);
 	//respositioning afer window resized
+	backgroundImg.size(windowWidth, -1);
+	foregroundImg.size(0.3514660494*windowWidth,-1);
+
+	foregroundImg.position(0, foregroundImg.height);
+
 	character.forEach(function(c){
-			c.setY(random(250, backHeight - 250));
+			c.setY(random(250, backgroundImg.height - 250));
 	});
 	
 }
