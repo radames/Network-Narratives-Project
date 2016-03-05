@@ -7,6 +7,10 @@ var Character = function(p){
 	
 	var that = this;
 	this.init = function(px, py, s, data){
+		this.init(px, py, s, data, false);
+	};
+	this.init = function(px, py, s, data, isStatic){
+		this.isStatic = isStatic;
 		this.data = data;
 		this.scale = s;
 		this.px = px;
@@ -24,9 +28,18 @@ var Character = function(p){
 		//this.labelName.addClass('h5');
 		this.labelName.style('font-weight: bold;background-color:white;white-space: nowrap;border-radius: 10px 10px 10px 10px;padding:5px;');
 		this.labelName.mousePressed(this.labelClicked); // attach listener for
-
+		if(this.isStatic){
+			this.labelName.hide();
+		}
 
 		
+	};
+	this.updateData = function(data){
+		this.sliders = data.sliders;
+		this.charType = data.charType;
+		this.creationName = data.creationName;
+		this.creationInfo = data.creationInfo;
+		this.locationType = data.locationType;
 	};
 	this.labelClicked = function(e){
 		
@@ -52,7 +65,10 @@ var Character = function(p){
 		}else{
 			this.drawRobotBody(this.px, this.py+50, this.scale);
 		}
-		this.update();
+		
+		if(!this.isStatic){
+			this.update();
+		}
 		
 	};
 	this.update = function(){
@@ -87,7 +103,9 @@ var Character = function(p){
 			this.drawRobotLeftArm(20,0, 0.5 + this.sliders[1]/100.0);
 			this.drawRobotRightArm(-20,0, 0.5 + this.sliders[1]/100.0);
 		this.c.pop();
-		this.drawName(px, py, s);
+		if(!this.isStatic){
+			this.drawName(px, py, s);
+		}
 
 	};
 	this.drawHumanBody = function(px, py, s){	
@@ -102,27 +120,10 @@ var Character = function(p){
 			this.drawRightLeg(-12,50, 0.5 + this.sliders[2]/100.0);
 			this.drawLeftLeg(12,50, 0.5 + this.sliders[2]/100.0);
 		this.c.pop();
+		if(!this.isStatic){
 			this.drawName(px, py, s);
+		}
 
-	};
-	this.drawInfo = function(px,py){
-		this.c.push();
-			this.c.translate(px-400/2,py-400/2);
-			this.c.textFont('Helvetica');
-			this.c.fill(255,200);
-			this.c.rect(-20,-20, 400, 500, 10);
-			this.c.fill(0,0,0);
-			this.c.textSize(25);
-			this.c.textStyle(BOLD);
-			this.c.text(this.creationName, 0, 20);
-
-			this.c.textSize(20);
-			this.c.textStyle(NORMAL);
-
-			this.c.text('type: ' + this.charType, 0, 50);
-			this.c.text('from: ' + this.locationType, 0, 80);
-			this.c.text(this.creationInfo, 0, 110, 400-40,400);
-		this.c.pop();
 	};
 	this.drawName = function(px,py,s){
 		this.labelName.style('font-size', (5+s*9) + 'px');
@@ -363,25 +364,35 @@ var Character = function(p){
 
 };
 var littleSketch = function (p){
-	var charData;
 	var mainChar;
 
 	p.setup = function (){
 
-		var c = p.createCanvas(100,100);
+		var c = p.createCanvas(100,200);
   		c.parent('char-box');
-		//mainChar = new Character(p);
-		//mainChar.init(c.width/2, c.height/2, 1, charData);
-		
+		mainChar = new Character(p);
+		var charData = {
+				  'creationName': '',
+				  'creationInfo': '',
+				  'charType': '',
+				  'locationType': '',
+				  'sliders': [
+					85,
+					15,
+					12,
+					88,
+					15
+				  ]
+		}; // initial ranndom data
+		mainChar.init(c.width/2, c.height/2, 0.5, charData, true);
 	};
 	p.draw = function(){
 		p.background(255);
-		//mainChar.draw();
+		mainChar.draw();
 	};
 	
 	p.setCharData = function(data) {
-		charData = data;
-		console.log(data);
+		mainChar.updateData(data);
 	};
 	
 	
