@@ -24,7 +24,7 @@ var Character = function(p){
 		this.creationInfo = data.creationInfo;
 		this.locationType = data.locationType;
 		this.labelName  = this.c.createSpan(this.creationName);
-		this.labelName.style('z-index: 2;');
+		this.labelName.style('z-index: 3;');
 		//this.labelName.addClass('h5');
 		this.labelName.style('font-weight: bold;background-color:white;white-space: nowrap;border-radius: 10px 10px 10px 10px;padding:5px;');
 		this.labelName.mousePressed(this.labelClicked); // attach listener for
@@ -45,6 +45,9 @@ var Character = function(p){
 		
 		$('#infoModal .modal-title').html(that.creationName);
 		$('#infoModal .info-box').html(that.creationInfo);
+		$('#infoModal .modal-city').html(that.locationType);
+		$('#infoModal .modal-chartype').html(that.charType);
+
 		//var c = createCanvas(windowWidth, windowHeight);
 		littleP5.setCharData(that.data);
 		
@@ -384,7 +387,7 @@ var littleSketch = function (p){
 					15
 				  ]
 		}; // initial ranndom data
-		mainChar.init(c.width/2, c.height/2, 0.5, charData, true);
+		mainChar.init(c.width/2, c.height/2 - 50, 0.5, charData, true);
 	};
 	p.draw = function(){
 		p.background(255);
@@ -417,7 +420,7 @@ var mainSketch = function(p){
 	p.setup = function (){
 		// create canvas
 		var c = p.createCanvas(p.windowWidth, p.windowHeight);
-		c.style('z-index: 0;');
+		c.style('z-index: 1;');
 		c.position(0,0);
 		p.textSize(15);
 		p.noStroke();
@@ -427,8 +430,8 @@ var mainSketch = function(p){
 		backgroundImg.size(p.windowWidth, -1);
 		foregroundImg.size(p.windowWidth, -1);
 
-		backgroundImg.style('z-index: -1;');
-		foregroundImg.style('z-index: 1;');
+		backgroundImg.style('z-index: 0;');
+		foregroundImg.style('z-index: 2;');
 
 		backgroundImg.position(0,0);
 		foregroundImg.position(0,0);
@@ -471,7 +474,9 @@ var mainSketch = function(p){
 	};
 
 	p.windowResized = function() {
+		console.log("FULL");	
 		p.resizeCanvas(p.windowWidth, p.windowHeight);
+		
 		//respositioning afer window resized
 		backgroundImg.size(p.windowWidth, -1);
 		foregroundImg.size(p.windowWidth, -1);
@@ -485,7 +490,7 @@ var mainSketch = function(p){
 
 	};
 	p.keyTyped = function(){
-		if(key == 'f'){
+		if(p.key == 'f'){
 			var fs = p.fullScreen();
 			p.fullScreen(!fs);		
 		}
