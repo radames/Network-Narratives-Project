@@ -447,7 +447,6 @@ var mainSketch = function(p){
 		backgroundImg.position(0,0);
 		foregroundImg.position(0,0);
 
-		state = 'init';
 		//foregroundImg.drop(p.dropFiles);
 		dataList.forEach(function(data){
 		  var newChar = new Character(p);
@@ -459,22 +458,10 @@ var mainSketch = function(p){
 
 	p.draw = function() {
 		p.clear();
-		 if(state === 'init'){
-
-			character.forEach(function(c){
-				c.draw();
-			});
-			p.image(logo, p.windowWidth*(1-0.16), 15, 0.15 * p.windowWidth , 0.15 * logo.height *( p.windowWidth / logo.width));
-
-		}else if(state === 'saved'){
-
-			state = 'idle';
-
-		}else if(state === 'idle'){
-			//image(backgroundImg,0,0);
-			//image(foregroundImg,0,100);
-		}
-
+		character.forEach(function(c){
+			c.draw();
+		});
+		p.image(logo, p.windowWidth*(1-0.16), 15, 0.15 * p.windowWidth , 0.15 * logo.height *( p.windowWidth / logo.width));
 
 	};
 
