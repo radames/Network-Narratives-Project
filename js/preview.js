@@ -369,8 +369,8 @@ var logo;
 var state;
 
 function preload(){
-	backgroundImg = createImg('../imgs/BasementbackgroundP2.jpg');
-	foregroundImg = createImg('../imgs/BasementbackgroundP1.png');
+	backgroundImg = createImg('../imgs/labBackground.jpg');
+	foregroundImg = createImg('../imgs/labForeground.jpg');
 	logo = loadImage('../imgs/logo2.svg');
 
 }
@@ -385,12 +385,13 @@ function setup() {
   //img = createImg('http://p5js.org/img/asterisk-01.png');
 
 	backgroundImg.size(windowWidth, -1);
+	foregroundImg.size(windowWidth, -1);
+
 	backgroundImg.style('z-index: -1;');
 	foregroundImg.style('z-index: 1;');
-	foregroundImg.size(0.3514660494*windowWidth,-1);
 
 	backgroundImg.position(0,0);
-	foregroundImg.position(0, foregroundImg.height);
+	foregroundImg.position(0,0);
 
 	state = 'init';
 	c.drop(dropFiles);
@@ -441,9 +442,9 @@ function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
 	//respositioning afer window resized
 	backgroundImg.size(windowWidth, -1);
-	foregroundImg.size(0.3514660494*windowWidth,-1);
+	foregroundImg.size(windowWidth, -1);
 	backgroundImg.position(0,0);
-	foregroundImg.position(0, foregroundImg.height);
+	foregroundImg.position(0,0);
 
 	character.forEach(function(c){
 			c.setY(random(250, backgroundImg.height - 250));
