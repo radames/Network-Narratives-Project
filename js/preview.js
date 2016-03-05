@@ -27,7 +27,17 @@ var Character = function(){
 		
 	};
 	this.labelClicked = function(e){
+		
+		$('#infoModal .modal-title').html(that.creationName);
+		$('#infoModal .info-box').html(that.creationInfo);
+		var c = createCanvas(windowWidth, windowHeight);
+		
+  		c.parent("char-box");
+		
+		c.resizeCanvas($('#char-box').width(),$('#char-box').height());
+
 		$('#infoModal').modal();
+		console.log(e);
 	}
 	this.setX = function(px){
 		this.px = px;	
