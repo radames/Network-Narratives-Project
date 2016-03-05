@@ -379,6 +379,7 @@ function setup() {
 	// create canvas
 	var c = createCanvas(windowWidth, windowHeight);
 	c.style('z-index: 0;');
+	c.position(0,0);
 	textSize(15);
 	noStroke();
 	
@@ -394,7 +395,7 @@ function setup() {
 	foregroundImg.position(0,0);
 
 	state = 'init';
-	c.drop(dropFiles);
+	foregroundImg.drop(dropFiles);
 }
 
  function draw() {
