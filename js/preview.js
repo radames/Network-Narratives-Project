@@ -4,7 +4,7 @@ var Character = function(p){
 	this.c = p; //canvas to draw
 	this.sliders = [];
 	this.lastTime = 0;
-	
+
 	var that = this;
 	this.init = function(px, py, s, data){
 		this.init(px, py, s, data, false);
@@ -32,7 +32,7 @@ var Character = function(p){
 			this.labelName.hide();
 		}
 
-		
+
 	};
 	this.updateData = function(data){
 		this.sliders = data.sliders;
@@ -42,7 +42,7 @@ var Character = function(p){
 		this.locationType = data.locationType;
 	};
 	this.labelClicked = function(e){
-		
+
 		$('#infoModal .modal-title').html(that.creationName);
 		$('#infoModal .info-box').html(that.creationInfo);
 		$('#infoModal .modal-city').html(that.locationType);
@@ -50,14 +50,14 @@ var Character = function(p){
 
 		//var c = createCanvas(windowWidth, windowHeight);
 		littleP5.setCharData(that.data);
-		
+
 		$('#infoModal').modal();
 	};
 	this.setX = function(px){
-		this.px = px;	
+		this.px = px;
 	};
 	this.setY = function(py){
-		this.py = py;	
+		this.py = py;
 	};
 	this.setScale = function(s){
 		this.scale = s;
@@ -68,11 +68,11 @@ var Character = function(p){
 		}else{
 			this.drawRobotBody(this.px, this.py+50, this.scale);
 		}
-		
+
 		if(!this.isStatic){
 			this.update();
 		}
-		
+
 	};
 	this.update = function(){
 		this.px += this.incx;
@@ -84,7 +84,7 @@ var Character = function(p){
 			this.px = 0;
 			this.incx = -this.incx;
 		}
-		
+
 //		this.py += this.incy;
 //		if(this.py > windowHeight){
 //			this.py = windowHeight;
@@ -95,7 +95,7 @@ var Character = function(p){
 //			this.incy = -this.incy;
 //		}
 	};
-	this.drawRobotBody = function(px, py, s){	
+	this.drawRobotBody = function(px, py, s){
 		this.c.push();
 			this.c.translate(px,py);
 			this.c.scale(s);
@@ -111,7 +111,7 @@ var Character = function(p){
 		}
 
 	};
-	this.drawHumanBody = function(px, py, s){	
+	this.drawHumanBody = function(px, py, s){
 		this.c.push();
 			this.c.translate(px,py);
 			this.c.scale(s);
@@ -130,7 +130,7 @@ var Character = function(p){
 	};
 	this.drawName = function(px,py,s){
 		this.labelName.style('font-size', (5+s*9) + 'px');
-		this.labelName.position(px,py+s*100);	
+		this.labelName.position(px,py+s*100);
 	};
 	this.drawRobotHead = function(px, py, s){
 		this.c.push();
@@ -150,7 +150,7 @@ var Character = function(p){
 		this.c.pop();
 	};
 	this.drawRobotLeftArm = function(px, py, s){
-		this.c.push();	
+		this.c.push();
 			this.c.strokeWeight(this.thick);
 
 			this.c.translate(px,py);
@@ -177,7 +177,7 @@ var Character = function(p){
 		this.c.pop();
 	};
 	this.drawRobotRightArm = function(px, py, s){
-		this.c.push();	
+		this.c.push();
 			this.c.strokeWeight(this.thick);
 
 			this.c.translate(px,py);
@@ -240,7 +240,7 @@ var Character = function(p){
 					this.c.vertex(50*s, 0);
 
 				this.c.endShape(this.c.CLOSE);
-			
+
 			this.c.push();
 				this.c.translate((80*s%20)/2,50*s);
 				for(var i = 0; i <= 80*s; i+=20){
@@ -255,7 +255,7 @@ var Character = function(p){
 
 
 //---------------Human --------
-	
+
 	this.drawHead = function(px, py, s){
 		this.c.push();
 			this.c.strokeWeight(this.thick);
@@ -372,20 +372,20 @@ var littleSketch = function (p){
 	p.setup = function (){
 
 		var c = p.createCanvas(100,200);
-  		c.parent('char-box');
+			c.parent('char-box');
 		mainChar = new Character(p);
 		var charData = {
-				  'creationName': '',
-				  'creationInfo': '',
-				  'charType': '',
-				  'locationType': '',
-				  'sliders': [
+					'creationName': '',
+					'creationInfo': '',
+					'charType': '',
+					'locationType': '',
+					'sliders': [
 					85,
 					15,
 					12,
 					88,
 					15
-				  ]
+					]
 		}; // initial ranndom data
 		mainChar.init(c.width/2, c.height/2 - 50, 0.5, charData, true);
 	};
@@ -393,12 +393,12 @@ var littleSketch = function (p){
 		p.background(255);
 		mainChar.draw();
 	};
-	
+
 	p.setCharData = function(data) {
 		mainChar.updateData(data);
 	};
-	
-	
+
+
 };
 
 var mainSketch = function(p){
@@ -409,6 +409,7 @@ var mainSketch = function(p){
 	var logo;
 
 	var state;
+	var fileList = [];
 
 	p.preload = function (){
 		backgroundImg = p.createImg('../imgs/labBackground.jpg');
@@ -425,7 +426,7 @@ var mainSketch = function(p){
 		p.textSize(15);
 		p.noStroke();
 
-	  //img = createImg('http://p5js.org/img/asterisk-01.png');
+		//img = createImg('http://p5js.org/img/asterisk-01.png');
 
 		backgroundImg.size(p.windowWidth, -1);
 		foregroundImg.size(p.windowWidth, -1);
@@ -441,7 +442,7 @@ var mainSketch = function(p){
 	};
 
 	p.draw = function() {
-	  p.clear();
+		p.clear();
 		 if(state === 'init'){
 
 			character.forEach(function(c){
@@ -464,19 +465,22 @@ var mainSketch = function(p){
 	p.dropFiles = function (file) {
 
 		if(file.subtype  === 'json'){
+			fileList.push(file.name);
 			var data = JSON.parse(atob(file.data.split(',')[1]));
 			var newChar = new Character(p);
 			newChar.init(p.random(p.windowWidth), p.random(350, backgroundImg.height - 350), 0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight, data);
-		
+
 			character.push(newChar);
 
 		}
 	};
+	p.getfList = function(){
+		return fileList;
+	};
 
 	p.windowResized = function() {
-		console.log("FULL");	
 		p.resizeCanvas(p.windowWidth, p.windowHeight);
-		
+
 		//respositioning afer window resized
 		backgroundImg.size(p.windowWidth, -1);
 		foregroundImg.size(p.windowWidth, -1);
@@ -492,7 +496,7 @@ var mainSketch = function(p){
 	p.keyTyped = function(){
 		if(p.key == 'f'){
 			var fs = p.fullScreen();
-			p.fullScreen(!fs);		
+			p.fullScreen(!fs);
 		}
 	};
 
