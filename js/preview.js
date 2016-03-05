@@ -34,8 +34,6 @@ var Character = function(){
 		
   		c.parent("char-box");
 		
-		c.resizeCanvas($('#char-box').width(),$('#char-box').height());
-
 		$('#infoModal').modal();
 		console.log(e);
 	}
