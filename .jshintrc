@@ -15,6 +15,7 @@
   "undef": true,
   "unused": false,
   "globals": {
+	"p5": true,
 	"$": false,
 	"selectAll": true,
 	"createImg": true,

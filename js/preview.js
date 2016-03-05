@@ -7,6 +7,7 @@ var Character = function(p){
 	
 	var that = this;
 	this.init = function(px, py, s, data){
+		this.data = data;
 		this.scale = s;
 		this.px = px;
 		this.py = py;
@@ -32,8 +33,8 @@ var Character = function(p){
 		$('#infoModal .modal-title').html(that.creationName);
 		$('#infoModal .info-box').html(that.creationInfo);
 		//var c = createCanvas(windowWidth, windowHeight);
+		littleP5.setCharData(that.data);
 		
-  		//c.parent('char-box');
 		$('#infoModal').modal();
 	};
 	this.setX = function(px){
@@ -361,6 +362,30 @@ var Character = function(p){
 
 
 };
+var littleSketch = function (p){
+	var charData;
+	var mainChar;
+
+	p.setup = function (){
+
+		var c = p.createCanvas(100,100);
+  		c.parent('char-box');
+		//mainChar = new Character(p);
+		//mainChar.init(c.width/2, c.height/2, 1, charData);
+		
+	};
+	p.draw = function(){
+		p.background(255);
+		//mainChar.draw();
+	};
+	
+	p.setCharData = function(data) {
+		charData = data;
+		console.log(data);
+	};
+	
+	
+};
 
 var mainSketch = function(p){
 
@@ -420,7 +445,7 @@ var mainSketch = function(p){
 		}
 
 
-	}
+	};
 
 	p.dropFiles = function (file) {
 
@@ -457,4 +482,5 @@ var mainSketch = function(p){
 
 };
 
-var myp5 = new p5(mainSketch);
+var mainP5 = new p5(mainSketch);
+var littleP5 = new p5(littleSketch);
