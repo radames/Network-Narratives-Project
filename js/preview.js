@@ -1,6 +1,7 @@
 'use strict';
 
-var Character = function(){
+var Character = function(p){
+	this.c = p; //canvas to draw
 	this.sliders = [];
 	this.lastTime = 0;
 	
@@ -9,15 +10,15 @@ var Character = function(){
 		this.scale = s;
 		this.px = px;
 		this.py = py;
-		this.incx = (randomGaussian()>0?-1:1) * 2 * data.sliders[2]/100;
-		this.incy = (randomGaussian()>0?-1:1) * 2 * data.sliders[2]/100;
+		this.incx = (this.c.randomGaussian()>0?-1:1) * 2 * data.sliders[2]/100;
+		this.incy = (this.c.randomGaussian()>0?-1:1) * 2 * data.sliders[2]/100;
 		this.thick = 3;
 		this.sliders = data.sliders;
 		this.charType = data.charType;
 		this.creationName = data.creationName;
 		this.creationInfo = data.creationInfo;
 		this.locationType = data.locationType;
-		this.labelName  = createSpan(this.creationName);
+		this.labelName  = this.c.createSpan(this.creationName);
 		this.labelName.style('z-index: 2;');
 		//this.labelName.addClass('h5');
 		this.labelName.style('font-weight: bold;background-color:white;white-space: nowrap;border-radius: 10px 10px 10px 10px;padding:5px;');
@@ -55,8 +56,8 @@ var Character = function(){
 	};
 	this.update = function(){
 		this.px += this.incx;
-		if(this.px > windowWidth){
-			this.px = windowWidth;
+		if(this.px > this.c.windowWidth){
+			this.px = this.c.windowWidth;
 			this.incx = -this.incx;
 		}
 		if(this.px < 0 ){
@@ -75,380 +76,385 @@ var Character = function(){
 //		}
 	};
 	this.drawRobotBody = function(px, py, s){	
-		push();
-			translate(px,py);
-			scale(s);
-			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2)/50);
+		this.c.push();
+			this.c.translate(px,py);
+			this.c.scale(s);
+			this.c.rotate(this.c.atan2(this.c.mouseY-this.c.windowHeight/2,this.c.mouseX-this.c.windowWidth/2)/50);
 			this.drawRobotBase(0,40, 0.5 + this.sliders[2]/100.0);
 			this.drawRobotTorso(0,0, 0.5 + this.sliders[4]/500.0);
 			this.drawRobotHead(0,-25, 0.5 + this.sliders[0]/100.0);
 			this.drawRobotLeftArm(20,0, 0.5 + this.sliders[1]/100.0);
 			this.drawRobotRightArm(-20,0, 0.5 + this.sliders[1]/100.0);
-		pop();
+		this.c.pop();
 		this.drawName(px, py, s);
 
 	};
 	this.drawHumanBody = function(px, py, s){	
-		push();
-			translate(px,py);
-			scale(s);
-			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2)/50);
+		this.c.push();
+			this.c.translate(px,py);
+			this.c.scale(s);
+			this.c.rotate(this.c.atan2(this.c.mouseY-this.c.windowHeight/2, this.c.mouseX-this.c.windowWidth/2)/50);
 			this.drawTorso(0,20, 0.5 + this.sliders[4]/200.0);
 			this.drawHead(0,-25, 1 + this.sliders[0]/100.0);
 			this.drawLeftArm(14,0, 1 + this.sliders[1]/100.0);
 			this.drawRightArm(-14,0, 1 + this.sliders[1]/100.0);
 			this.drawRightLeg(-12,50, 0.5 + this.sliders[2]/100.0);
 			this.drawLeftLeg(12,50, 0.5 + this.sliders[2]/100.0);
-		pop();
+		this.c.pop();
 			this.drawName(px, py, s);
 
 	};
 	this.drawInfo = function(px,py){
-		push();
-			translate(px-400/2,py-400/2);
-			textFont('Helvetica');
-			fill(255,200);
-			rect(-20,-20, 400, 500, 10);
-			fill(0,0,0);
-			textSize(25);
-			textStyle(BOLD);
-			text(this.creationName, 0, 20);
+		this.c.push();
+			this.c.translate(px-400/2,py-400/2);
+			this.c.textFont('Helvetica');
+			this.c.fill(255,200);
+			this.c.rect(-20,-20, 400, 500, 10);
+			this.c.fill(0,0,0);
+			this.c.textSize(25);
+			this.c.textStyle(BOLD);
+			this.c.text(this.creationName, 0, 20);
 
-			textSize(20);
-			textStyle(NORMAL);
+			this.c.textSize(20);
+			this.c.textStyle(NORMAL);
 
-			text('type: ' + this.charType, 0, 50);
-			text('from: ' + this.locationType, 0, 80);
-			text(this.creationInfo, 0, 110, 400-40,400);
-		pop();
+			this.c.text('type: ' + this.charType, 0, 50);
+			this.c.text('from: ' + this.locationType, 0, 80);
+			this.c.text(this.creationInfo, 0, 110, 400-40,400);
+		this.c.pop();
 	};
 	this.drawName = function(px,py,s){
 		this.labelName.style('font-size', (5+s*9) + 'px');
 		this.labelName.position(px,py+s*100);	
 	};
 	this.drawRobotHead = function(px, py, s){
-		push();
-			strokeWeight(this.thick);
+		this.c.push();
+			this.c.strokeWeight(this.thick);
 
-			rectMode(CENTER);
-			translate(px,py);
-			fill(255);
-			stroke(0);
-			rect(0, 0, 20*s, 30*s,1);
-			push();
-				translate(0,-30*s/2-15*s);
-				line(0,0,0,15*s);
-				fill(255);
-				ellipse(0,0,4,4);
-			pop();
-		pop();
+			this.c.rectMode(this.c.CENTER);
+			this.c.translate(px,py);
+			this.c.fill(255);
+			this.c.stroke(0);
+			this.c.rect(0, 0, 20*s, 30*s,1);
+			this.c.push();
+				this.c.translate(0,-30*s/2-15*s);
+				this.c.line(0,0,0,15*s);
+				this.c.fill(255);
+				this.c.ellipse(0,0,4,4);
+			this.c.pop();
+		this.c.pop();
 	};
 	this.drawRobotLeftArm = function(px, py, s){
-		push();	
-			strokeWeight(this.thick);
+		this.c.push();	
+			this.c.strokeWeight(this.thick);
 
-			translate(px,py);
-			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
-			stroke(0);
-			push();
-				translate(-10*s/2,0);
-				beginShape();
-					vertex(0,0);
-					vertex(10*s,0);
-					vertex(10*s, 40*s);
-					vertex(0, 40*s);
-				endShape(CLOSE);
-				push();
-					translate(0,40*s);
-					beginShape();
-						vertex(-3,0);
-						vertex(13*s,0);
-						vertex(13*s, 5*s);
-						vertex(-3, 5*s);
-					endShape(CLOSE);
-				pop();
-			pop();
-		pop();
+			this.c.translate(px,py);
+			this.c.rotate(this.c.atan2(this.c.mouseY-this.c.windowHeight/2, this.c.mouseX-this.c.windowWidth/2));
+			this.c.stroke(0);
+			this.c.push();
+				this.c.translate(-10*s/2,0);
+				this.c.beginShape();
+					this.c.vertex(0,0);
+					this.c.vertex(10*s,0);
+					this.c.vertex(10*s, 40*s);
+					this.c.vertex(0, 40*s);
+				this.c.endShape(this.c.CLOSE);
+				this.c.push();
+					this.c.translate(0,40*s);
+					this.c.beginShape();
+						this.c.vertex(-3,0);
+						this.c.vertex(13*s,0);
+						this.c.vertex(13*s, 5*s);
+						this.c.vertex(-3, 5*s);
+					this.c.endShape(this.c.CLOSE);
+				this.c.pop();
+			this.c.pop();
+		this.c.pop();
 	};
 	this.drawRobotRightArm = function(px, py, s){
-		push();	
-			strokeWeight(this.thick);
+		this.c.push();	
+			this.c.strokeWeight(this.thick);
 
-			translate(px,py);
-			rotate(-atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
-			stroke(0);
-			push();
-				translate(-10*s/2,0);
-				beginShape();
-					vertex(0,0);
-					vertex(10*s,0);
-					vertex(10*s, 40*s);
-					vertex(0, 40*s);
-				endShape(CLOSE);
-				push();
-					translate(0,40*s);
-					beginShape();
-						vertex(-3,0);
-						vertex(13*s,0);
-						vertex(13*s, 5*s);
-						vertex(-3, 5*s);
-					endShape(CLOSE);
-				pop();
-			pop();
-		pop();
+			this.c.translate(px,py);
+			this.c.rotate(-this.c.atan2(this.c.mouseY-this.c.windowHeight/2, this.c.mouseX-this.c.windowWidth/2));
+			this.c.stroke(0);
+			this.c.push();
+				this.c.translate(-10*s/2,0);
+				this.c.beginShape();
+					this.c.vertex(0,0);
+					this.c.vertex(10*s,0);
+					this.c.vertex(10*s, 40*s);
+					this.c.vertex(0, 40*s);
+				this.c.endShape(this.c.CLOSE);
+				this.c.push();
+					this.c.translate(0,40*s);
+					this.c.beginShape();
+						this.c.vertex(-3,0);
+						this.c.vertex(13*s,0);
+						this.c.vertex(13*s, 5*s);
+						this.c.vertex(-3, 5*s);
+					this.c.endShape(this.c.CLOSE);
+				this.c.pop();
+			this.c.pop();
+		this.c.pop();
 	};
 	this.drawRobotTorso = function (px, py, s){
-		push();
-			strokeWeight(this.thick);
+		this.c.push();
+			this.c.strokeWeight(this.thick);
 
-			translate(px,py);
+			this.c.translate(px,py);
 
 			//scale(s);
-			fill(255);
-			stroke(0);
-			push();
-				translate(-40*s/2,0);
-				beginShape();
-					vertex(0*s, 70*s);
-					vertex(40*s, 70*s);
-					vertex(40*s, 0);
-					vertex(0, 0);
-				endShape(CLOSE);
-			pop();
-		pop();
+			this.c.fill(255);
+			this.c.stroke(0);
+			this.c.push();
+				this.c.translate(-40*s/2,0);
+				this.c.beginShape();
+					this.c.vertex(0*s, 70*s);
+					this.c.vertex(40*s, 70*s);
+					this.c.vertex(40*s, 0);
+					this.c.vertex(0, 0);
+				this.c.endShape(this.c.CLOSE);
+			this.c.pop();
+		this.c.pop();
 	};
 	this.drawRobotBase = function (px, py, s){
-		push();
-			strokeWeight(this.thick);
-			translate(px,py);
+		this.c.push();
+			this.c.strokeWeight(this.thick);
+			this.c.translate(px,py);
 
 			//scale(s);
-			fill(255);
-			stroke(0);
-			push();
-				translate(-80*s/2,0);
-				beginShape();
-					vertex(30*s, 0);
-					vertex(0, 50*s);
-					vertex(80*s, 50*s);
-					vertex(50*s, 0);
+			this.c.fill(255);
+			this.c.stroke(0);
+			this.c.push();
+				this.c.translate(-80*s/2,0);
+				this.c.beginShape();
+					this.c.vertex(30*s, 0);
+					this.c.vertex(0, 50*s);
+					this.c.vertex(80*s, 50*s);
+					this.c.vertex(50*s, 0);
 
-				endShape(CLOSE);
+				this.c.endShape(this.c.CLOSE);
 			
-			push();
-				translate((80*s%20)/2,50*s);
+			this.c.push();
+				this.c.translate((80*s%20)/2,50*s);
 				for(var i = 0; i <= 80*s; i+=20){
-					ellipse(i, 0, 20, 20);
-					ellipse(i, 0, 3, 3);
+					this.c.ellipse(i, 0, 20, 20);
+					this.c.ellipse(i, 0, 3, 3);
 				}
-			pop();
-			pop();
+			this.c.pop();
+			this.c.pop();
 
-		pop();
+		this.c.pop();
 	};
 
 
 //---------------Human --------
 	
 	this.drawHead = function(px, py, s){
-		push();
-			strokeWeight(this.thick);
-			translate(px,py);
-			fill(255);
-			stroke(0);
-			ellipse(0, 0, 20*s, 30*s);
+		this.c.push();
+			this.c.strokeWeight(this.thick);
+			this.c.translate(px,py);
+			this.c.fill(255);
+			this.c.stroke(0);
+			this.c.ellipse(0, 0, 20*s, 30*s);
 
-		pop();
+		this.c.pop();
 
 	};
 	this.drawLeftArm = function(px, py, s){
-		push();
-			strokeWeight(this.thick);
-			translate(px,py);
-			rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
-			stroke(0);
-			push();
-				rotate(PI/2);
-				ellipseMode(CORNER);
-				ellipse(0,-10*s/2, 40,10*s);
-			pop();
-			fill(255);
-			ellipse(0,40, 10,10);
-			push();
-				translate(0,40);
-				rotate(atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
-				push();
-					rotate(PI/2);
-					ellipseMode(CORNER);
-					ellipse(0,-5*s/2, 45,5*s);
-				pop();
-			pop();
-		pop();
+		this.c.push();
+			this.c.strokeWeight(this.thick);
+			this.c.translate(px,py);
+			this.c.rotate(this.c.atan2(this.c.mouseY-this.c.windowHeight/2, this.c.mouseX-this.c.windowWidth/2));
+			this.c.stroke(0);
+			this.c.push();
+				this.c.rotate(this.c.PI/2);
+				this.c.ellipseMode(this.c.CORNER);
+				this.c.ellipse(0,-10*s/2, 40,10*s);
+			this.c.pop();
+			this.c.fill(255);
+			this.c.ellipse(0,40, 10,10);
+			this.c.push();
+				this.c.translate(0,40);
+				this.c.rotate(this.c.atan2(this.c.mouseY-this.c.windowHeight/2, this.c.mouseX-this.c.windowWidth/2));
+				this.c.push();
+					this.c.rotate(this.c.PI/2);
+					this.c.ellipseMode(this.c.CORNER);
+					this.c.ellipse(0,-5*s/2, 45,5*s);
+				this.c.pop();
+			this.c.pop();
+		this.c.pop();
 	};
 	this.drawRightArm = function(px, py, s){
-		push();
-			strokeWeight(this.thick);
-			translate(px,py);
-			rotate(-atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
-			stroke(0);
-			push();
-				rotate(PI/2);
-				ellipseMode(CORNER);
-				ellipse(0,-10*s/2, 40,10*s);
-			pop();
-			fill(255);
-			ellipse(0,40, 10,10);
-			push();
-				translate(0,40);
-				rotate(-atan2(mouseY-windowHeight/2, mouseX-windowWidth/2));
-				push();
-					rotate(PI/2);
-					ellipseMode(CORNER);
-					ellipse(0,-5*s/2, 45,5*s);
-				pop();
-			pop();
-		pop();
+		this.c.push();
+			this.c.strokeWeight(this.thick);
+			this.c.translate(px,py);
+			this.c.rotate(-this.c.atan2(this.c.mouseY-this.c.windowHeight/2, this.c.mouseX-this.c.windowWidth/2));
+			this.c.stroke(0);
+			this.c.push();
+				this.c.rotate(this.c.PI/2);
+				this.c.ellipseMode(this.c.CORNER);
+				this.c.ellipse(0,-10*s/2, 40,10*s);
+			this.c.pop();
+			this.c.fill(255);
+			this.c.ellipse(0,40, 10,10);
+			this.c.push();
+				this.c.translate(0,40);
+				this.c.rotate(-this.c.atan2(this.c.mouseY-this.c.windowHeight/2, this.c.mouseX-this.c.windowWidth/2));
+				this.c.push();
+					this.c.rotate(this.c.PI/2);
+					this.c.ellipseMode(this.c.CORNER);
+					this.c.ellipse(0,-5*s/2, 45,5*s);
+				this.c.pop();
+			this.c.pop();
+		this.c.pop();
 	};
 	this.drawRightLeg = function(px, py, s){
-		push();
-			strokeWeight(this.thick);
-			translate(px,py);
-			rotate(0);
-			stroke(0);
-			fill(255);
-			line(6,0, 0,60*s);
-			ellipse(0,60*s, 10,10);
-			push();
-				translate(0,60*s);
-				line(0,0,0,60*s);
-			pop();
-		pop();
+		this.c.push();
+			this.c.strokeWeight(this.thick);
+			this.c.translate(px,py);
+			this.c.rotate(0);
+			this.c.stroke(0);
+			this.c.fill(255);
+			this.c.line(6,0, 0,60*s);
+			this.c.ellipse(0,60*s, 10,10);
+			this.c.push();
+				this.c.translate(0,60*s);
+				this.c.line(0,0,0,60*s);
+			this.c.pop();
+		this.c.pop();
 	};
 	this.drawLeftLeg = function(px, py, s){
-		push();
-			strokeWeight(this.thick);
-			translate(px,py);
-			rotate(0);
-			stroke(0);
-			fill(255);
-			line(-6,0, 0,60*s);
-			ellipse(0,60*s, 10,10);
-			push();
-				translate(0,60*s);
-				line(0,0,0,60*s);
-			pop();
-		pop();
+		this.c.push();
+			this.c.strokeWeight(this.thick);
+			this.c.translate(px,py);
+			this.c.rotate(0);
+			this.c.stroke(0);
+			this.c.fill(255);
+			this.c.line(-6,0, 0,60*s);
+			this.c.ellipse(0,60*s, 10,10);
+			this.c.push();
+				this.c.translate(0,60*s);
+				this.c.line(0,0,0,60*s);
+			this.c.pop();
+		this.c.pop();
 	};
 	this.drawTorso = function (px, py, s){
-		push();
-			strokeWeight(this.thick);
-			translate(px,py);
+		this.c.push();
+			this.c.strokeWeight(this.thick);
+			this.c.translate(px,py);
 
 			//scale(s);
-			fill(255);
-			stroke(0);
-			//	rect(0,0,40,60);
+			this.c.fill(255);
+			this.c.stroke(0);
+			//	this.c.rect(0,0,40,60);
 
-			beginShape();
-				vertex(-15*s, 30);
-				vertex(15*s, 30);
-				vertex(20*s, -30);
-				vertex(-20*s, -30);
-			endShape(CLOSE);
-		pop();
+			this.c.beginShape();
+				this.c.vertex(-15*s, 30);
+				this.c.vertex(15*s, 30);
+				this.c.vertex(20*s, -30);
+				this.c.vertex(-20*s, -30);
+			this.c.endShape(this.c.CLOSE);
+		this.c.pop();
 	};
 
 
 };
 
+var mainSketch = function(p){
+
+	var character = [];
+	var backgroundImg;
+	var foregroundImg;
+	var logo;
+
+	var state;
+
+	p.preload = function (){
+		backgroundImg = p.createImg('../imgs/labBackground.jpg');
+		foregroundImg = p.createImg('../imgs/labForeground.jpg');
+		logo = p.loadImage('../imgs/logo2.svg');
+
+	};
+
+	p.setup = function (){
+		// create canvas
+		var c = p.createCanvas(p.windowWidth, p.windowHeight);
+		c.style('z-index: 0;');
+		c.position(0,0);
+		p.textSize(15);
+		p.noStroke();
+
+	  //img = createImg('http://p5js.org/img/asterisk-01.png');
+
+		backgroundImg.size(p.windowWidth, -1);
+		foregroundImg.size(p.windowWidth, -1);
+
+		backgroundImg.style('z-index: -1;');
+		foregroundImg.style('z-index: 1;');
+
+		backgroundImg.position(0,0);
+		foregroundImg.position(0,0);
+
+		state = 'init';
+		foregroundImg.drop(p.dropFiles);
+	};
+
+	p.draw = function() {
+	  p.clear();
+		 if(state === 'init'){
+
+			character.forEach(function(c){
+				c.draw();
+			});
+			p.image(logo, p.windowWidth*(1-0.16), 15, 0.15 * p.windowWidth , 0.15 * logo.height *( p.windowWidth / logo.width));
+
+		}else if(state === 'saved'){
+
+			state = 'idle';
+
+		}else if(state === 'idle'){
+			//image(backgroundImg,0,0);
+			//image(foregroundImg,0,100);
+		}
 
 
-var character = [];
-var backgroundImg;
-var foregroundImg;
-var logo;
+	}
 
-var state;
+	p.dropFiles = function (file) {
 
-function preload(){
-	backgroundImg = createImg('../imgs/labBackground.jpg');
-	foregroundImg = createImg('../imgs/labForeground.jpg');
-	logo = loadImage('../imgs/logo2.svg');
-
-}
-
-function setup() {
-	// create canvas
-	var c = createCanvas(windowWidth, windowHeight);
-	c.style('z-index: 0;');
-	c.position(0,0);
-	textSize(15);
-	noStroke();
-	
-  //img = createImg('http://p5js.org/img/asterisk-01.png');
-
-	backgroundImg.size(windowWidth, -1);
-	foregroundImg.size(windowWidth, -1);
-
-	backgroundImg.style('z-index: -1;');
-	foregroundImg.style('z-index: 1;');
-
-	backgroundImg.position(0,0);
-	foregroundImg.position(0,0);
-
-	state = 'init';
-	foregroundImg.drop(dropFiles);
-}
-
- function draw() {
-  clear();
-	 if(state === 'init'){
+		if(file.subtype  === 'json'){
+			var data = JSON.parse(atob(file.data.split(',')[1]));
+			var newChar = new Character(p);
+			newChar.init(p.random(p.windowWidth), p.random(350, backgroundImg.height - 350), 0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight, data);
 		
+			character.push(newChar);
+
+		}
+	};
+
+	p.windowResized = function() {
+		p.resizeCanvas(p.windowWidth, p.windowHeight);
+		//respositioning afer window resized
+		backgroundImg.size(p.windowWidth, -1);
+		foregroundImg.size(p.windowWidth, -1);
+		backgroundImg.position(0,0);
+		foregroundImg.position(0,0);
+
 		character.forEach(function(c){
-			c.draw();
+				c.setY(p.random(350, backgroundImg.height - 350));
+				c.setScale(0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight);
 		});
-		image(logo, windowWidth*(1-0.16), 15, 0.15 * windowWidth , 0.15 * logo.height *( windowWidth / logo.width));
 
-	}else if(state === 'saved'){
-		
-		state = 'idle';
+	};
+	p.keyTyped = function(){
+		if(key == 'f'){
+			var fs = p.fullScreen();
+			p.fullScreen(!fs);		
+		}
+	};
 
-	}else if(state === 'idle'){
-		//image(backgroundImg,0,0);
-		//image(foregroundImg,0,100);
-	}
-	 
+};
 
-}
-
-function dropFiles(file) {
-	
-	if(file.subtype  === 'json'){
-		var data = JSON.parse(atob(file.data.split(',')[1]));
-		var newChar = new Character();
-		newChar.init(random(windowWidth), random(350, backgroundImg.height - 350), 0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight, data);
-		character.push(newChar);
-
-	}
-}
-
-function windowResized() {
-	resizeCanvas(windowWidth, windowHeight);
-	//respositioning afer window resized
-	backgroundImg.size(windowWidth, -1);
-	foregroundImg.size(windowWidth, -1);
-	backgroundImg.position(0,0);
-	foregroundImg.position(0,0);
-	
-	character.forEach(function(c){
-			c.setY(random(350, backgroundImg.height - 350));
-			c.setScale(0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight);
-	});
-	
-}
-function keyTyped(){
-	if(key == 'f'){
-		var fs = fullScreen();
-		fullScreen(!fs);		
-	}
-}
+var myp5 = new p5(mainSketch);
