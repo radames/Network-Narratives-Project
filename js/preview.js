@@ -30,13 +30,11 @@ var Character = function(){
 		
 		$('#infoModal .modal-title').html(that.creationName);
 		$('#infoModal .info-box').html(that.creationInfo);
-		var c = createCanvas(windowWidth, windowHeight);
+		//var c = createCanvas(windowWidth, windowHeight);
 		
-  		c.parent("char-box");
-		
+  		//c.parent('char-box');
 		$('#infoModal').modal();
-		console.log(e);
-	}
+	};
 	this.setX = function(px){
 		this.px = px;	
 	};
@@ -45,7 +43,7 @@ var Character = function(){
 	};
 	this.setScale = function(s){
 		this.scale = s;
-	}
+	};
 	this.draw = function(){
 		if(this.charType === 'Human'){
 			this.drawHumanBody(this.px, this.py, this.scale);
@@ -125,7 +123,7 @@ var Character = function(){
 		pop();
 	};
 	this.drawName = function(px,py,s){
-		this.labelName.style("font-size", (5+s*9) + 'px');
+		this.labelName.style('font-size', (5+s*9) + 'px');
 		this.labelName.position(px,py+s*100);	
 	};
 	this.drawRobotHead = function(px, py, s){
@@ -362,6 +360,7 @@ var Character = function(){
 
 
 };
+
 
 
 var character = [];

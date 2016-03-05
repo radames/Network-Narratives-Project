@@ -17,10 +17,12 @@
   "globals": {
 	"$": false,
 	"selectAll": true,
+	"createImg": true,
 	"createSelect": true,
 	"createSpan":true,
 	"createElement":true,
 	"createButton":true,
+	"fullScreen":true,
 	"store": true,
     "ADD": true,
     "ALT": true,
