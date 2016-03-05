@@ -3,8 +3,10 @@
 var Character = function(){
 	this.sliders = [];
 	this.lastTime = 0;
+	
 	var that = this;
-	this.init = function(px, py, data){
+	this.init = function(px, py, s, data){
+		this.scale = s;
 		this.px = px;
 		this.py = py;
 		this.incx = (randomGaussian()>0?-1:1) * 2 * data.sliders[2]/100;
@@ -33,11 +35,14 @@ var Character = function(){
 	this.setY = function(py){
 		this.py = py;	
 	};
-	this.draw = function(scale){
+	this.setScale = function(s){
+		this.scale = s;
+	}
+	this.draw = function(){
 		if(this.charType === 'Human'){
-			this.drawHumanBody(this.px, this.py, scale);
+			this.drawHumanBody(this.px, this.py, this.scale);
 		}else{
-			this.drawRobotBody(this.px, this.py+50, scale);
+			this.drawRobotBody(this.px, this.py+50, this.scale);
 		}
 		this.update();
 		
@@ -403,7 +408,7 @@ function setup() {
 	 if(state === 'init'){
 		
 		character.forEach(function(c){
-			c.draw(backgroundImg.height/windowHeight );
+			c.draw();
 		});
 		image(logo, windowWidth*(1-0.16), 15, 0.15 * windowWidth , 0.15 * logo.height *( windowWidth / logo.width));
 
@@ -434,8 +439,9 @@ function dropFiles(file) {
 	if(file.subtype  === 'json'){
 		var data = JSON.parse(atob(file.data.split(',')[1]));
 		var newChar = new Character();
-		newChar.init(random(windowWidth), random(250, backgroundImg.height - 250) ,data);
+		newChar.init(random(windowWidth), random(350, backgroundImg.height - 350), 0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight, data);
 		character.push(newChar);
+
 	}
 }
 
@@ -446,9 +452,10 @@ function windowResized() {
 	foregroundImg.size(windowWidth, -1);
 	backgroundImg.position(0,0);
 	foregroundImg.position(0,0);
-
+	
 	character.forEach(function(c){
-			c.setY(random(250, backgroundImg.height - 250));
+			c.setY(random(350, backgroundImg.height - 350));
+			c.setScale(0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight);
 	});
 	
 }
