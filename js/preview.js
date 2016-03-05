@@ -12,13 +12,13 @@ var Character = function(){
 		this.incx = (randomGaussian()>0?-1:1) * 2 * data.sliders[2]/100;
 		this.incy = (randomGaussian()>0?-1:1) * 2 * data.sliders[2]/100;
 		this.thick = 3;
-		this.showInfo = false;
 		this.sliders = data.sliders;
 		this.charType = data.charType;
 		this.creationName = data.creationName;
 		this.creationInfo = data.creationInfo;
 		this.locationType = data.locationType;
 		this.labelName  = createSpan(this.creationName);
+		this.labelName.style('z-index: 2;');
 		//this.labelName.addClass('h5');
 		this.labelName.style('font-weight: bold;background-color:white;white-space: nowrap;border-radius: 10px 10px 10px 10px;padding:5px;');
 		this.labelName.mousePressed(this.labelClicked); // attach listener for
@@ -45,16 +45,6 @@ var Character = function(){
 			this.drawRobotBody(this.px, this.py+50, this.scale);
 		}
 		this.update();
-		
-		if(this.showInfo && (millis() - this.lastTime) < 10000){
-			this.drawInfo(windowWidth/2, windowHeight/2);
-		}else{
-			this.showInfo = false;
-		}
-	};
-	this.toggleInfo = function(){
-		this.showInfo = !this.showInfo;
-		this.lastTime = millis();
 		
 	};
 	this.update = function(){
@@ -422,16 +412,6 @@ function setup() {
 	}
 	 
 
-}
-
-function mouseClicked() {
-	
-	character.forEach(function(c){
-			if(dist(mouseX, mouseY, c.px, c.py) < 50){
-				c.toggleInfo();
-				//$('#infoModal').modal();
-			}
-	});
 }
 
 function dropFiles(file) {
