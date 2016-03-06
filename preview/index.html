@@ -7,12 +7,12 @@
 	<script language="javascript" type="text/javascript" src="../js/preview.js"></script>
 	<script language="javascript" type="text/javascript" src="../js/jquery-2.2.0.min.js"></script>
 	<script language="javascript" type="text/javascript" src="../js/bootstrap.min.js"></script>
-	
+
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
 
 	<style>
-		body {padding: 0; margin: 0; background-color: black}; 
+		body {padding: 0; margin: 0; background-color: black};
 		.myStyle {font-family: Courier; color:red; font-size:18px;}
 	</style>
 	<title>Preview</title>
@@ -25,25 +25,27 @@
 
 <!-- Modal -->
 
-<div id="infoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+<div id="infoModal" class="modal fade small" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="gridSystemModalLabel">Modal title</h3>
-        <h4 class="modal-city"></h4>
-        <h5 class="modal-chartype"</h5>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-		  <div class="col-md-8 info-box fixed">.col-md-8</div>
-		  <div id="char-box" class="col-md-4 fixed"></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="gridSystemModalLabel">Modal title</h4>
+		<h5 class="modal-city"></h5>
+		<h5 class="modal-chartype"</h5>
+	  </div>
+	  <div class="modal-body">
+		<div class="row">
+		  <div class="col-xs-8 col-sm-6 info-box">.col-md-8</div>
+		  <div id="char-box" class="text-center col-xs-4 col-sm-6"></div>
+		</div>
+	  </div>
+<!--
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+-->
+	</div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 

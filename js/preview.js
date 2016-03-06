@@ -371,7 +371,7 @@ var littleSketch = function (p){
 
 	p.setup = function (){
 
-		var c = p.createCanvas(100,200);
+		var c = p.createCanvas(100,150);
 			c.parent('char-box');
 		mainChar = new Character(p);
 		var charData = {
@@ -450,7 +450,7 @@ var mainSketch = function(p){
 		//foregroundImg.drop(p.dropFiles);
 		dataList.forEach(function(data){
 		  var newChar = new Character(p);
-		  newChar.init(p.random(p.windowWidth), p.random(350, backgroundImg.height - 350), 0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight, data);
+		  newChar.init(p.random(p.windowWidth), p.random(50, backgroundImg.height - 100), 0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight, data);
 		  character.push(newChar);
 		});
 
@@ -491,7 +491,7 @@ var mainSketch = function(p){
 		foregroundImg.position(0,0);
 
 		character.forEach(function(c){
-				c.setY(p.random(350, backgroundImg.height - 350));
+				c.setY(p.random(50, backgroundImg.height-100));
 				c.setScale(0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight);
 		});
 
