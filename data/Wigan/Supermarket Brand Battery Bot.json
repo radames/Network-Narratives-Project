@@ -1,0 +1,13 @@
+{
+  "creationName": "Supermarket Brand Battery Bot",
+  "creationInfo": "He runs flat after 5mins of use.",
+  "charType": "Robot",
+  "locationType": "Wigan",
+  "sliders": [
+    46,
+    54,
+    87,
+    13,
+    54
+  ]
+}

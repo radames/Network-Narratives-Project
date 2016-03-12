@@ -403,6 +403,7 @@ var littleSketch = function (p){
 
 var burnleyFiles = ['Arya.json', 'Bam.json', 'Bubble gum.xox.json', 'Captain America.json', 'HRH Queen Elizabeth II.json', 'James Buchanan \'Bucky\' Barnes.json', 'Paul.Spread.json', 'Radical Romantic.json', 'robot199.json', 'silver surfer.json', 'Spud.json', 'Steve Rogers.json', 'super super robot girl.json', 'The Winter Soldier.json', 'U53FUL1D10T.json'];
 
+var STATIC = true;
 var mainSketch = function(p){
 
 	var character = [];
@@ -419,12 +420,14 @@ var mainSketch = function(p){
 		foregroundImg = p.createImg('../imgs/labForeground.jpg');
 		logo = p.loadImage('../imgs/logo2.svg');
 	    //preloading JSONs
-	  	burnleyFiles.forEach(function(fname){
-		  	//var newChar = new Character(p);
-			var data = p.loadJSON('../data/Burnley/'+fname);
-			dataList.push(data);
-		  	//character.push(newChar);
-		});
+	  	if(STATIC){
+			burnleyFiles.forEach(function(fname){
+				//var newChar = new Character(p);
+				var data = p.loadJSON('../data/Burnley/'+fname);
+				dataList.push(data);
+				//character.push(newChar);
+			});
+		}
 
 	};
 
@@ -446,8 +449,10 @@ var mainSketch = function(p){
 
 		backgroundImg.position(0,0);
 		foregroundImg.position(0,0);
-
-		//foregroundImg.drop(p.dropFiles);
+		
+	  	if(!STATIC){
+			foregroundImg.drop(p.dropFiles);
+		}
 		dataList.forEach(function(data){
 		  var newChar = new Character(p);
 		  newChar.init(p.random(p.windowWidth), p.random(50, backgroundImg.height - 100), 0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight, data);

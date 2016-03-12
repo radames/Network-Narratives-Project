@@ -1,0 +1,13 @@
+{
+  "creationName": "Sweetie",
+  "creationInfo": "Sweetie likes to eat doughnuts, cheese and fish.",
+  "charType": "Robot",
+  "locationType": "Wigan",
+  "sliders": [
+    100,
+    0,
+    100,
+    0,
+    0
+  ]
+}

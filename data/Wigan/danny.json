@@ -1,0 +1,13 @@
+{
+  "creationName": "danny",
+  "creationInfo": "happy",
+  "charType": "Robot",
+  "locationType": "Hull",
+  "sliders": [
+    0,
+    100,
+    100,
+    0,
+    0
+  ]
+}

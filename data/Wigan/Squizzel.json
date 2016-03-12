@@ -1,0 +1,13 @@
+{
+  "creationName": "Squizzel",
+  "creationInfo": "Squizzel is a super fast and brainy robot from Wigan. Her favourite food is metal macaroni cheese. She loves digital tech and art.",
+  "charType": "Robot",
+  "locationType": "Wigan",
+  "sliders": [
+    76,
+    24,
+    100,
+    0,
+    24
+  ]
+}

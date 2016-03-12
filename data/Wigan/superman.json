@@ -1,0 +1,13 @@
+{
+  "creationName": "superman",
+  "creationInfo": "very strong",
+  "charType": "Robot",
+  "locationType": "Hull",
+  "sliders": [
+    0,
+    100,
+    100,
+    0,
+    100
+  ]
+}

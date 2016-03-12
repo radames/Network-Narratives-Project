@@ -1,0 +1,13 @@
+{
+  "creationName": "Harry",
+  "creationInfo": "Harry out of Harry Potter",
+  "charType": "Human",
+  "locationType": "Wigan",
+  "sliders": [
+    100,
+    0,
+    65,
+    35,
+    100
+  ]
+}

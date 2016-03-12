@@ -1,0 +1,13 @@
+{
+  "creationName": "speedy robo",
+  "creationInfo": "can run realy fast and makes lightning",
+  "charType": "Robot",
+  "locationType": "Wigan",
+  "sliders": [
+    100,
+    0,
+    100,
+    0,
+    0
+  ]
+}
