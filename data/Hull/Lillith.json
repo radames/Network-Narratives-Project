@@ -1,0 +1,13 @@
+{
+  "creationName": "Lillith",
+  "creationInfo": "A smart but slightly shy girl, Lillith discovers an old book in a box. Then begins a long, dangerous journey across the Pennines to Robo-Burnley.",
+  "charType": "Human",
+  "locationType": "Hull",
+  "sliders": [
+    65,
+    35,
+    32,
+    68,
+    35
+  ]
+}

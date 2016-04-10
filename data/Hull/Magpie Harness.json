@@ -1,0 +1,13 @@
+{
+  "creationName": "Magpie Harness",
+  "creationInfo": "Magpie is on the run - hiding with the rebel forces from the authorities that wish to kill her. A robotic eye installed by her fathers company - FutureGen - marks her out as a cyborg, meaning that she not only has to hide from FutureGen but from her family and friends too; to them she is a monster.",
+  "charType": "Human",
+  "locationType": "Hull",
+  "sliders": [
+    80,
+    20,
+    57,
+    43,
+    20
+  ]
+}

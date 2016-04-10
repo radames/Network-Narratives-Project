@@ -1,0 +1,13 @@
+{
+  "creationName": "cheshire",
+  "creationInfo": "My creation is a robotic cat that is not really from Wigan. He is a disease from Nasa under disguise. He is secretly planning on bombing ASDA with Sam the librarian.",
+  "charType": "Robot",
+  "locationType": "Wigan",
+  "sliders": [
+    0,
+    100,
+    100,
+    0,
+    100
+  ]
+}

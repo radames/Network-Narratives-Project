@@ -4,10 +4,14 @@ var Character = function(p){
 	this.c = p; //canvas to draw
 	this.sliders = [];
 	this.lastTime = 0;
+    this.toFilter = true;
 
 	var that = this;
 	this.init = function(px, py, s, data){
 		this.init(px, py, s, data, false);
+	};
+    this.toggleFilter = function(){
+	  this.toFilter = !this.toFilter;
 	};
 	this.init = function(px, py, s, data, isStatic){
 		this.isStatic = isStatic;
@@ -76,24 +80,26 @@ var Character = function(p){
 	};
 	this.update = function(){
 		this.px += this.incx;
-		if(this.px > this.c.windowWidth){
-			this.px = this.c.windowWidth;
-			this.incx = -this.incx;
+	 	var maxDisp = this.c.windowWidth;
+	  	var minDisp = 0;
+	  
+		if(this.toFilter){
+		  	if(this.charType == 'Human'){
+			    maxDisp = this.c.windowWidth/2 - 100;
+			    minDisp = 0;
+			}else{
+			    maxDisp = this.c.windowWidth;
+			    minDisp = this.c.windowWidth/2 + 100;
+			}
 		}
-		if(this.px < 0 ){
-			this.px = 0;
-			this.incx = -this.incx;
-		}
-
-//		this.py += this.incy;
-//		if(this.py > windowHeight){
-//			this.py = windowHeight;
-//			this.incy = -this.incy;
-//		}
-//		if(this.py < 0 ){
-//			this.py = 0;
-//			this.incy = -this.incy;
-//		}
+		if(this.px > maxDisp){
+			  this.px = maxDisp;
+			  this.incx = -this.incx;
+		  }
+		  if(this.px < minDisp ){
+			  this.px = minDisp;
+			  this.incx = -this.incx;
+		 }
 	};
 	this.drawRobotBody = function(px, py, s){
 		this.c.push();
@@ -505,6 +511,10 @@ var mainSketch = function(p){
 		if(p.key == 'f'){
 			var fs = p.fullScreen();
 			p.fullScreen(!fs);
+		}else if(p.key == ' '){
+		  	character.forEach(function(c){
+				c.toggleFilter();
+			});
 		}
 	};
 

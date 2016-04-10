@@ -1,0 +1,13 @@
+{
+  "creationName": "Mettaton",
+  "creationInfo": "Robot pop megastar who has ambitions to take the human world by storm.",
+  "charType": "Robot",
+  "locationType": "Hull",
+  "sliders": [
+    0,
+    100,
+    100,
+    0,
+    0
+  ]
+}

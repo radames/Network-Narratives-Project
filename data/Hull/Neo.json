@@ -1,0 +1,13 @@
+{
+  "creationName": "Neo",
+  "creationInfo": "Knock knock",
+  "charType": "Human",
+  "locationType": "Hull",
+  "sliders": [
+    100,
+    0,
+    49,
+    51,
+    0
+  ]
+}
