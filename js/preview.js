@@ -83,7 +83,7 @@ var Character = function(p){
 	 	var maxDisp = this.c.windowWidth;
 	  	var minDisp = 0;
 	  
-		if(this.toFilter){
+		if(this.toFilter){ //filter human,bots, just set the max min, for their displacements
 		  	if(this.charType == 'Human'){
 			    maxDisp = this.c.windowWidth/2 - 100;
 			    minDisp = 0;
