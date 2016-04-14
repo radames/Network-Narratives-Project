@@ -4,7 +4,7 @@ var Character = function(p){
 	this.c = p; //canvas to draw
 	this.sliders = [];
 	this.lastTime = 0;
-    this.toFilter = true;
+    this.toFilter = false;
 
 	var that = this;
 	this.init = function(px, py, s, data){
@@ -409,6 +409,10 @@ var littleSketch = function (p){
 
 var burnleyFiles = ['Arya.json', 'Bam.json', 'Bubble gum.xox.json', 'Captain America.json', 'HRH Queen Elizabeth II.json', 'James Buchanan \'Bucky\' Barnes.json', 'Paul.Spread.json', 'Radical Romantic.json', 'robot199.json', 'silver surfer.json', 'Spud.json', 'Steve Rogers.json', 'super super robot girl.json', 'The Winter Soldier.json', 'U53FUL1D10T.json'];
 
+var hullFiles = ["Alex.json", "Amelia Pond.json", "cheshire.json", "Dil Howlter.json", "Jackdaw Harness.json", "Jonny 5.json", "Lillith.json", "Magpie Harness.json", "mary.json", "Matt.json", "Mettaton.json", "Neo.json", "Rory the Roman.json", "sarah.json", "Sherlock.json"];
+
+var wiganFiles = ["bob.json", "danny.json", "Harry.json", "Just That Normal Guy.json", "speedy robo.json", "Squizzel.json", "superman.json", "Supermarket Brand Battery Bot.json", "Sweetie.json", "Youthworker MKVIII.json"];
+
 var STATIC = true;
 var mainSketch = function(p){
 
@@ -430,6 +434,20 @@ var mainSketch = function(p){
 			burnleyFiles.forEach(function(fname){
 				//var newChar = new Character(p);
 				var data = p.loadJSON('../data/Burnley/'+fname);
+				dataList.push(data);
+				//character.push(newChar);
+			});
+		  
+		  	hullFiles.forEach(function(fname){
+				//var newChar = new Character(p);
+				var data = p.loadJSON('../data/Hull/'+fname);
+				dataList.push(data);
+				//character.push(newChar);
+			});
+		  
+		  	wiganFiles.forEach(function(fname){
+				//var newChar = new Character(p);
+				var data = p.loadJSON('../data/Wigan/'+fname);
 				dataList.push(data);
 				//character.push(newChar);
 			});
@@ -484,7 +502,6 @@ var mainSketch = function(p){
 			var newChar = new Character(p);
 			newChar.init(p.random(p.windowWidth), p.random(350, backgroundImg.height - 350), 0.1 + backgroundImg.height/backgroundImg.elt.naturalHeight, data);
 			character.push(newChar);
-
 		}
 	};
 
