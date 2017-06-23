@@ -89,7 +89,7 @@ var GUI = function() {
 			this.sliders[i].attribute('name', 'sld-' + i);
 			this.sliders[i].style('width:130px');
 			var imgPath = '../imgs/' + this.labels[i] + '.svg';
-			this.icons[i] = loadImage(imgPath);
+			this.icons[i] = loadImage(imgPath.toLowerCase());
 		}
 		for(i = 0; i < this.nParam; i++){
 			this.sliders[i].elt.dispatchEvent(new Event('change'));
