@@ -4,14 +4,14 @@ var GUI = function() {
 	var that = this;
 	this.nParam = 5;
 	this.running = false;
-	
+
 	this.state = 'init';
 	this.json = {};
-	
+
 	this.init = function(x,y){
 		this.x = x;
 		this.y = y;
-		
+
 		this.logo = loadImage('../imgs/logo.svg');
 		this.selType = createSelect();
 		this.locationType = createSelect();
@@ -45,7 +45,7 @@ var GUI = function() {
 		this.creationName.attribute('size', '40');
 		this.creationName.attribute('maxlength','30');
 		this.creationName.attribute('placeholder', 'The name of my creations is');
-		this.creationName.style('width:250px'); 
+		this.creationName.style('width:250px');
 		this.creationName.addClass('form-control GUI');
 
 		this.creationInfo = createElement('textarea');
@@ -65,13 +65,13 @@ var GUI = function() {
 		this.buttonCreate = createButton('Create');
 		this.buttonCreate.position(this.x + 140, this.y + 500);
 		this.buttonCreate.addClass('btn btn-default GUI');
-		
+
  		this.buttonCreate.mousePressed(this.createFunction);
 		//this.buttonRun.mousePressed(this.runFunction);
 		//this.buttonRun.attribute('id','runBtn');
 		//this.buttonRun.addClass('btn btn-default GUI');
-		
-		
+
+
 		this.sliders = [];
 		this.icons = [];
 		this.labels = ['Brain', 'Strength', 'Speed', 'Stamina', 'Empathy'];
@@ -82,13 +82,14 @@ var GUI = function() {
 			this.htmlLables[i].position(this.x + 135, this.y + 40*i);
 			this.htmlLables[i].addClass('h4 GUI');
 			this.htmlLables[i].style('background-color:white');
-			
+
 			this.sliders[i].addClass('form-control GUI');
 			this.sliders[i].position(this.x, this.y + 40*i);
 			this.sliders[i].changed(this.slideChange);
 			this.sliders[i].attribute('name', 'sld-' + i);
 			this.sliders[i].style('width:130px');
-			this.icons[i] = loadImage('../imgs/' + this.labels[i] + '.svg');
+			var imgPath = '../imgs/' + this.labels[i] + '.svg';
+			this.icons[i] = loadImage(imgPath);
 		}
 		for(i = 0; i < this.nParam; i++){
 			this.sliders[i].elt.dispatchEvent(new Event('change'));
@@ -113,13 +114,13 @@ var GUI = function() {
 	this.hideAll = function (){
 		var elts = selectAll('.GUI');
 		elts.forEach(function(e){
-			e.hide();	
+			e.hide();
 		});
 	};
 	this.showAll = function (){
 		var elts = selectAll('.GUI');
 		elts.forEach(function(e){
-			e.show();	
+			e.show();
 		});
 	};
 	this.createFunction = function(){
@@ -129,7 +130,7 @@ var GUI = function() {
 		}
 		that.state = 'saved';
 		$('#thanksModal').modal();
-		
+
 		that.json.creationName = that.creationName.value().trim();
 		that.json.creationInfo = that.creationInfo.value().trim().replace(/\n/g, '');
 		that.json.charType = that.selType.value();
@@ -201,7 +202,7 @@ var GUI = function() {
 			case 'sld-2':
 				that.sliders[3].elt.value = 100 - that.sliders[2].value();
 				break;
-			case 'sld-3': 
+			case 'sld-3':
 				that.sliders[2].elt.value = 100 - that.sliders[3].value();
 				break;
 			case 'sld-4':
@@ -214,15 +215,15 @@ var GUI = function() {
 };
 
 var Character = function(){
-	
+
 	this.init = function(px, py){
 		this.px = px;
 		this.py = py;
 		this.thick = 3;
-		
+
 	};
 	this.setX = function(px){
-		this.px = px;	
+		this.px = px;
 	};
 	this.draw = function(params, charType){
 		if(charType === 'Human'){
@@ -231,7 +232,7 @@ var Character = function(){
 			this.drawRobotBody(this.px, this.py+50, params);
 		}
 	};
-	this.drawRobotBody = function(px, py, sliders){	
+	this.drawRobotBody = function(px, py, sliders){
 		push();
 			translate(px,py);
 			scale(1.5);
@@ -245,7 +246,7 @@ var Character = function(){
 
 		pop();
 	};
-	this.drawHumanBody = function(px, py, sliders){	
+	this.drawHumanBody = function(px, py, sliders){
 		push();
 			translate(px,py);
 			scale(1.5);
@@ -278,7 +279,7 @@ var Character = function(){
 		pop();
 	};
 	this.drawRobotLeftArm = function(px, py, s){
-		push();	
+		push();
 			strokeWeight(this.thick);
 
 			translate(px,py);
@@ -305,7 +306,7 @@ var Character = function(){
 		pop();
 	};
 	this.drawRobotRightArm = function(px, py, s){
-		push();	
+		push();
 			strokeWeight(this.thick);
 
 			translate(px,py);
@@ -368,7 +369,7 @@ var Character = function(){
 					vertex(50*s, 0);
 
 				endShape(CLOSE);
-			
+
 			push();
 				translate((80*s%20)/2,50*s);
 				for(var i = 0; i <= 80*s; i+=20){
@@ -383,7 +384,7 @@ var Character = function(){
 
 
 //---------------Human --------
-	
+
 	this.drawHead = function(px, py, s){
 		push();
 			strokeWeight(this.thick);
@@ -510,28 +511,28 @@ function setup() {
 
 	gui = new GUI();
 	gui.init(70,40);
-	
+
 	character = new Character();
 	character.init(windowWidth/2, windowHeight - 300);
-	
+
 
 	backImg = loadImage('../imgs/Biobackground2.jpg');
 	backImgFinal = loadImage('../imgs/Biobackground.jpg');
 	state = 'init';
-	
+
 }
-  
+
  function draw() {
-	  
+
 	background(255);
 	if(state === 'init'){
 		image(backImg,0,0, windowWidth, backImg.height*(windowWidth/backImg.width));
 		character.draw(gui.getSliders(), gui.getType());
 		gui.draw();
 		state = gui.getState();
-	
+
 	}else if(state === 'saved'){
-		
+
 		gui.hideAll();
 		state = 'idle';
 		setTimeout(restartGUI, 5000);
