@@ -82,7 +82,7 @@ var Character = function(p){
 		this.px += this.incx;
 	 	var maxDisp = this.c.windowWidth;
 	  	var minDisp = 0;
-	  
+
 		if(this.toFilter){ //filter human,bots, just set the max min, for their displacements
 		  	if(this.charType == 'Human'){
 			    maxDisp = this.c.windowWidth/2 - 100;
@@ -424,7 +424,7 @@ var mainSketch = function(p){
 	var state;
 	var fileList = [];
 	var dataList =[];
-	
+
 	p.preload = function (){
 		backgroundImg = p.createImg('../imgs/labBackground.jpg');
 		foregroundImg = p.createImg('../imgs/labForeground.jpg');
@@ -437,14 +437,14 @@ var mainSketch = function(p){
 				dataList.push(data);
 				//character.push(newChar);
 			});
-		  
+
 		  	hullFiles.forEach(function(fname){
 				//var newChar = new Character(p);
 				var data = p.loadJSON('../data/Hull/'+fname);
 				dataList.push(data);
 				//character.push(newChar);
 			});
-		  
+
 		  	wiganFiles.forEach(function(fname){
 				//var newChar = new Character(p);
 				var data = p.loadJSON('../data/Wigan/'+fname);
@@ -457,7 +457,7 @@ var mainSketch = function(p){
 
 	p.setup = function (){
 		// create canvas
-		var c = p.createCanvas(p.windowWidth, p.windowHeight);
+		var c = p.createCanvas(p.windowWidth, p.windowWidth*backgroundImg.width/p.windowWidth);
 		c.style('z-index: 1;');
 		c.position(0,0);
 		p.textSize(15);
@@ -465,16 +465,18 @@ var mainSketch = function(p){
 
 		//img = createImg('http://p5js.org/img/asterisk-01.png');
 
-		backgroundImg.size(p.windowWidth, -1);
-		foregroundImg.size(p.windowWidth, -1);
+		backgroundImg.size(p.windowWidth, p.windowHeight);
+		foregroundImg.size(p.windowWidth, p.windowHeight);
 
 		backgroundImg.style('z-index: 0;');
 		foregroundImg.style('z-index: 2;');
 
 		backgroundImg.position(0,0);
 		foregroundImg.position(0,0);
-		
-	  	if(!STATIC){
+
+		console.log(backgroundImg);
+		console.log(p.windowHeight * backgroundImg.width / p.windowWidth);
+	  if(!STATIC){
 			foregroundImg.drop(p.dropFiles);
 		}
 		dataList.forEach(function(data){
@@ -510,11 +512,11 @@ var mainSketch = function(p){
 	};
 
 	p.windowResized = function() {
-		p.resizeCanvas(p.windowWidth, p.windowHeight);
+		p.resizeCanvas(p.windowWidth, p.windowWidth*backgroundImg.width/p.windowWidth);
 
 		//respositioning afer window resized
-		backgroundImg.size(p.windowWidth, -1);
-		foregroundImg.size(p.windowWidth, -1);
+		backgroundImg.size(p.windowWidth, p.windowWidth*backgroundImg.width/p.windowWidth);
+		foregroundImg.size(p.windowWidth, p.windowWidth*foregroundImg.width/p.windowWidth);
 		backgroundImg.position(0,0);
 		foregroundImg.position(0,0);
 
