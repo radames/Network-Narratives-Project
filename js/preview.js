@@ -457,7 +457,7 @@ var mainSketch = function(p){
 
 	p.setup = function (){
 		// create canvas
-		var c = p.createCanvas(p.windowWidth, p.windowWidth*backgroundImg.width/p.windowWidth);
+		var c = p.createCanvas(p.windowWidth, p.windowWidth * backgroundImg.width / p.windowWidth);
 		c.style('z-index: 1;');
 		c.position(0,0);
 		p.textSize(15);
@@ -474,9 +474,7 @@ var mainSketch = function(p){
 		backgroundImg.position(0,0);
 		foregroundImg.position(0,0);
 
-		console.log(backgroundImg);
-		console.log(p.windowHeight * backgroundImg.width / p.windowWidth);
-	  if(!STATIC){
+		if(!STATIC){
 			foregroundImg.drop(p.dropFiles);
 		}
 		dataList.forEach(function(data){
